@@ -179,7 +179,7 @@ export function MissionControlWidget() {
 
             {/* Radar */}
             <div className="col-span-4 flex flex-col">
-              <div className="relative flex-1 rounded-xl border border-white/5 bg-black/40 overflow-hidden flex items-center justify-center min-h-[220px]">
+              <div className="relative flex-1 rounded-xl border border-white/5 bg-black/40 overflow-hidden flex items-center justify-center min-h-[220px] p-3">
                 <RadarScope />
               </div>
             </div>
@@ -323,96 +323,250 @@ function StatusTile({
 }
 
 function RadarScope() {
+  const seeded = (value: number) => {
+    const random = Math.sin(value * 12.9898) * 43758.5453;
+    return random - Math.floor(random);
+  };
+
+  const threatMarkers = Array.from({ length: 8 }, (_, index) => {
+    const tone = (index % 3) === 0 ? "normal" : (index % 3) === 1 ? "suspicious" : "critical";
+    const angle = seeded(index + 4) * Math.PI * 2;
+    const radius = 24 + seeded(index + 9) * 66;
+    const cx = 110 + Math.cos(angle) * radius * 0.58;
+    const cy = 110 + Math.sin(angle) * radius * 0.58;
+
+    return {
+      cx,
+      cy,
+      r: 1.8 + seeded(index + 17) * 2.2,
+      tone: tone as "normal" | "suspicious" | "critical",
+      delay: seeded(index + 22) * 1.3,
+    };
+  });
+
   return (
-    <svg viewBox="0 0 200 200" className="absolute inset-0 h-full w-full">
-      <defs>
-        <radialGradient id="rad-sweep" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="oklch(0.55 0.22 260)" stopOpacity="0" />
-          <stop offset="70%" stopColor="oklch(0.55 0.22 260)" stopOpacity="0.35" />
-          <stop offset="100%" stopColor="oklch(0.55 0.22 260)" stopOpacity="0" />
-        </radialGradient>
-        <radialGradient id="rad-bg" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="oklch(0.55 0.22 260)" stopOpacity="0.15" />
-          <stop offset="100%" stopColor="oklch(0.55 0.22 260)" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <circle cx="100" cy="100" r="90" fill="url(#rad-bg)" />
-      {[80, 60, 40, 20].map((r) => (
-        <circle
-          key={r}
-          cx="100"
-          cy="100"
-          r={r}
-          fill="none"
-          stroke="oklch(0.55 0.22 260)"
-          strokeOpacity="0.18"
-          strokeDasharray="2 4"
-        />
-      ))}
-      <line x1="10" y1="100" x2="190" y2="100" stroke="oklch(0.55 0.22 260 / 0.18)" />
-      <line x1="100" y1="10" x2="100" y2="190" stroke="oklch(0.55 0.22 260 / 0.18)" />
-      {/* Sweep */}
-      <motion.g
-        initial={{ scale: 0.2, opacity: 0.8 }}
-        animate={{ scale: 1.1, opacity: 0 }}
-        transition={{ duration: 3, repeat: Infinity, ease: "easeOut", repeatDelay: 1 }}
-        style={{ transformOrigin: "100px 100px" }}
-      >
-        <path d="M100 100 L100 10 A90 90 0 0 1 190 100 Z" fill="url(#rad-sweep)" />
-        <line x1="100" y1="100" x2="100" y2="10" stroke="oklch(0.55 0.22 260)" strokeWidth="1.2" strokeOpacity="0.9" />
-      </motion.g>
-      {/* Center fingerprint */}
-      <motion.g
-        transform="translate(85 85)"
-        animate={{ scale: [1, 1.08, 1], opacity: [0.8, 1, 0.8] }}
-        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-        style={{ transformOrigin: "15px 15px" }}
-      >
-        <circle cx="15" cy="15" r="14" fill="oklch(0.55 0.22 260 / 0.15)" stroke="oklch(0.55 0.22 260)" strokeOpacity="0.5" />
-        <Fingerprint x="4" y="4" width="22" height="22" color="oklch(0.55 0.22 260)" />
-      </motion.g>
-      {/* Contact blips */}
-      {[
-        { cx: 60, cy: 50, tone: "primary" },
-        { cx: 148, cy: 68, tone: "primary" },
-        { cx: 155, cy: 140, tone: "danger" },
-        { cx: 74, cy: 154, tone: "warning" },
-        { cx: 135, cy: 108, tone: "primary" },
-      ].map((b, i) => (
+    <div className="absolute inset-[4%] sm:inset-[6%] flex items-center justify-center">
+      <svg viewBox="0 0 220 220" className="h-full w-full max-w-[520px] drop-shadow-[0_0_22px_rgba(78,123,255,0.18)]" aria-hidden>
+        <defs>
+          <radialGradient id="rad-sweep" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="oklch(0.65 0.28 260)" stopOpacity="0" />
+            <stop offset="58%" stopColor="oklch(0.65 0.28 260)" stopOpacity="0.46" />
+            <stop offset="100%" stopColor="oklch(0.65 0.28 260)" stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id="rad-bg" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="oklch(0.62 0.24 260 / 0.34)" />
+            <stop offset="55%" stopColor="oklch(0.52 0.18 260 / 0.18)" />
+            <stop offset="100%" stopColor="oklch(0.42 0.12 260 / 0.02)" />
+          </radialGradient>
+          <radialGradient id="radarShell" cx="50%" cy="35%" r="75%">
+            <stop offset="0%" stopColor="oklch(0.33 0.06 260 / 0.95)" />
+            <stop offset="62%" stopColor="oklch(0.21 0.04 260 / 0.92)" />
+            <stop offset="100%" stopColor="oklch(0.14 0.03 260 / 0.96)" />
+          </radialGradient>
+          <radialGradient id="glassShine" cx="28%" cy="22%" r="78%">
+            <stop offset="0%" stopColor="oklch(0.95 0.03 250 / 0.34)" />
+            <stop offset="35%" stopColor="oklch(0.9 0.04 250 / 0.12)" />
+            <stop offset="100%" stopColor="oklch(0.9 0.04 250 / 0)" />
+          </radialGradient>
+          <linearGradient id="radarFrame" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="oklch(0.65 0.18 250 / 0.85)" />
+            <stop offset="50%" stopColor="oklch(0.55 0.22 260 / 0.35)" />
+            <stop offset="100%" stopColor="oklch(0.62 0.18 245 / 0.6)" />
+          </linearGradient>
+          <filter id="radarGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="2.8" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+          <filter id="scopeShadow" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="oklch(0.4 0.2 260 / 0.45)" />
+            <feDropShadow dx="0" dy="2" stdDeviation="8" floodColor="oklch(0.16 0.04 260 / 0.9)" />
+          </filter>
+        </defs>
+
+        <g filter="url(#scopeShadow)">
+          <circle cx="110" cy="110" r="100" fill="url(#radarShell)" stroke="oklch(0.66 0.17 250 / 0.28)" strokeWidth="0.9" />
+          <circle cx="110" cy="110" r="96" fill="url(#rad-bg)" stroke="url(#radarFrame)" strokeWidth="0.95" />
+          <ellipse cx="110" cy="84" rx="56" ry="18" fill="oklch(0.62 0.20 260 / 0.10)" filter="url(#radarGlow)" />
+          <ellipse cx="72" cy="64" rx="60" ry="34" fill="url(#glassShine)" />
+        </g>
         <motion.g
-          key={i}
-          animate={{ scale: [1, 1.18, 1], opacity: [0.8, 1, 0.8] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
-          style={{ transformOrigin: `${b.cx}px ${b.cy}px` }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
+          style={{ transformOrigin: "110px 110px" }}
         >
-          <circle
-            cx={b.cx}
-            cy={b.cy}
-            r="8"
-            fill="none"
-            stroke={
-              b.tone === "danger"
-                ? "oklch(0.65 0.24 25)"
-                : b.tone === "warning"
-                ? "oklch(0.80 0.17 75)"
-                : "oklch(0.55 0.22 260)"
-            }
-            strokeOpacity="0.6"
-          />
-          <circle
-            cx={b.cx}
-            cy={b.cy}
-            r="2.4"
-            fill={
-              b.tone === "danger"
-                ? "oklch(0.65 0.24 25)"
-                : b.tone === "warning"
-                ? "oklch(0.80 0.17 75)"
-                : "oklch(0.55 0.22 260)"
-            }
-          />
+          <circle cx="110" cy="110" r="94" fill="none" stroke="oklch(0.55 0.22 260 / 0.28)" strokeWidth="0.8" strokeDasharray="1 8" />
         </motion.g>
-      ))}
-    </svg>
+
+        {[90, 78, 66, 54, 42, 30, 18, 6].map((r) => (
+          <circle
+            key={r}
+            cx="110"
+            cy="110"
+            r={r}
+            fill="none"
+            stroke="oklch(0.55 0.22 260)"
+            strokeOpacity={r === 90 ? 0.34 : 0.18}
+            strokeDasharray={r === 90 ? "1 0" : "2 5"}
+            strokeWidth={r === 90 ? 1.2 : 0.8}
+          />
+        ))}
+
+        {Array.from({ length: 12 }).map((_, i) => {
+          const angle = (i * 30 * Math.PI) / 180;
+          const x1 = 110 + Math.cos(angle) * 94;
+          const y1 = 110 + Math.sin(angle) * 94;
+          const x2 = 110 + Math.cos(angle) * 104;
+          const y2 = 110 + Math.sin(angle) * 104;
+          return (
+            <line
+              key={`grid-${i}`}
+              x1={x1}
+              y1={y1}
+              x2={x2}
+              y2={y2}
+              stroke="oklch(0.55 0.22 260 / 0.22)"
+              strokeWidth="0.8"
+            />
+          );
+        })}
+
+        {Array.from({ length: 12 }).map((_, i) => {
+          const angle = (i * 30 * Math.PI) / 180;
+          const x = 110 + Math.cos(angle) * 104;
+          const y = 110 + Math.sin(angle) * 104;
+          const label = ["0°", "30°", "60°", "90°", "120°", "150°", "180°", "210°", "240°", "270°", "300°", "330°"][i];
+          return (
+            <text
+              key={`label-${i}`}
+              x={x}
+              y={y}
+              textAnchor="middle"
+              dominantBaseline="middle"
+              fontSize="5"
+              fill="oklch(0.78 0.16 210 / 0.78)"
+              fontFamily="monospace"
+              letterSpacing="0.8"
+            >
+              {label}
+            </text>
+          );
+        })}
+
+        <line x1="20" y1="110" x2="200" y2="110" stroke="oklch(0.55 0.22 260 / 0.22)" strokeWidth="0.8" />
+        <line x1="110" y1="20" x2="110" y2="200" stroke="oklch(0.55 0.22 260 / 0.22)" strokeWidth="0.8" />
+
+        <line x1="110" y1="110" x2="110" y2="14" stroke="oklch(0.55 0.22 260 / 0.86)" strokeWidth="1.1" />
+        <line x1="110" y1="110" x2="110" y2="206" stroke="oklch(0.55 0.22 260 / 0.86)" strokeWidth="1.1" />
+        <line x1="110" y1="110" x2="14" y2="110" stroke="oklch(0.55 0.22 260 / 0.86)" strokeWidth="1.1" />
+        <line x1="110" y1="110" x2="206" y2="110" stroke="oklch(0.55 0.22 260 / 0.86)" strokeWidth="1.1" />
+
+        <circle cx="110" cy="110" r="5" fill="oklch(0.55 0.22 260 / 0.32)" />
+        <circle cx="110" cy="110" r="9" fill="none" stroke="oklch(0.75 0.18 260 / 0.6)" strokeWidth="1.05" />
+        <circle cx="110" cy="110" r="14" fill="none" stroke="oklch(0.55 0.22 260 / 0.22)" strokeWidth="0.7" />
+
+        <g filter="url(#radarGlow)">
+          <motion.g
+            animate={{ rotate: [0, 360] }}
+            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+            style={{ transformOrigin: "110px 110px" }}
+          >
+            <path d="M110 110 L110 18 A92 92 0 0 1 202 110 Z" fill="url(#rad-sweep)" />
+            <line x1="110" y1="110" x2="110" y2="18" stroke="oklch(0.55 0.22 260)" strokeWidth="1.2" strokeOpacity="0.9" />
+          </motion.g>
+        </g>
+
+        <motion.circle
+          cx="110"
+          cy="110"
+          r="18"
+          fill="none"
+          stroke="oklch(0.55 0.22 260 / 0.45)"
+          strokeWidth="1"
+          animate={{ scale: [0.9, 1.15, 1.5], opacity: [0.55, 0.3, 0] }}
+          transition={{ duration: 3.2, repeat: Infinity, ease: "easeOut" }}
+          style={{ transformOrigin: "110px 110px" }}
+        />
+
+        <motion.g
+          transform="translate(88 88)"
+          animate={{ scale: [1, 1.08, 1], opacity: [0.8, 1, 0.8] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+          style={{ transformOrigin: "15px 15px" }}
+        >
+          <motion.circle
+            cx="15"
+            cy="15"
+            r="20"
+            fill="oklch(0.55 0.22 260 / 0.12)"
+            animate={{ scale: [1, 1.12, 1], opacity: [0.4, 0.7, 0.4] }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+            style={{ transformOrigin: "15px 15px" }}
+          />
+          <circle cx="15" cy="15" r="15" fill="oklch(0.55 0.22 260 / 0.15)" stroke="oklch(0.55 0.22 260)" strokeOpacity="0.5" />
+          <Fingerprint x="4" y="4" width="22" height="22" color="oklch(0.55 0.22 260)" />
+        </motion.g>
+
+        {threatMarkers.map((marker, i) => {
+          const colors = {
+            normal: {
+              stroke: "oklch(0.55 0.22 260)",
+              fill: "oklch(0.55 0.22 260)",
+            },
+            suspicious: {
+              stroke: "oklch(0.80 0.17 75)",
+              fill: "oklch(0.80 0.17 75)",
+            },
+            critical: {
+              stroke: "oklch(0.65 0.24 25)",
+              fill: "oklch(0.65 0.24 25)",
+            },
+          };
+          const tone = colors[marker.tone];
+
+          return (
+            <motion.g
+              key={`${marker.cx}-${marker.cy}-${marker.tone}`}
+              animate={{ scale: [1, 1.14, 1], opacity: [0.8, 1, 0.8] }}
+              transition={{ duration: 2.1, repeat: Infinity, ease: "easeInOut", delay: marker.delay }}
+              style={{ transformOrigin: `${marker.cx}px ${marker.cy}px` }}
+            >
+              <motion.circle
+                cx={marker.cx}
+                cy={marker.cy}
+                r={marker.r * 3.2}
+                fill="none"
+                stroke={tone.stroke}
+                strokeOpacity="0.45"
+                animate={{ opacity: [0.25, 0.74, 0.25], scale: [0.9, 1.15, 0.9] }}
+                transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", delay: marker.delay }}
+                style={{ transformOrigin: `${marker.cx}px ${marker.cy}px` }}
+              />
+              <motion.circle
+                cx={marker.cx}
+                cy={marker.cy}
+                r={marker.r * 2.2}
+                fill="none"
+                stroke={tone.stroke}
+                strokeOpacity="0.6"
+                animate={{ opacity: [0.35, 0.9, 0.35] }}
+                transition={{ duration: 1.9, repeat: Infinity, ease: "easeInOut", delay: marker.delay + i * 0.04 }}
+              />
+              <motion.circle
+                cx={marker.cx}
+                cy={marker.cy}
+                r={marker.r}
+                fill={tone.fill}
+                animate={{ scale: [1, 1.45, 1], opacity: [0.7, 1, 0.7] }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut", delay: marker.delay + 0.1 }}
+                style={{ transformOrigin: `${marker.cx}px ${marker.cy}px` }}
+              />
+            </motion.g>
+          );
+        })}
+      </svg>
+    </div>
   );
 }
