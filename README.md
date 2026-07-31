@@ -1,32 +1,50 @@
-# ForenShield
+# 🛡️ ForenShield
 
-> Interactive Cybersecurity Training & Digital Investigation Platform
+<div align="center">
 
-ForenShield is a modern cybersecurity education platform designed to provide practical, hands-on learning through realistic cyber attack simulations, digital forensics investigations, and incident response exercises.
+### Interactive Cybersecurity Training & Digital Investigation Platform
 
-Unlike traditional theory-based learning, ForenShield allows students to investigate cyber incidents, analyze digital evidence, and solve realistic cybersecurity cases inside an immersive investigation environment.
+Learn. Investigate. Analyze. Respond.
 
----
+![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![Flutter](https://img.shields.io/badge/Flutter-3-02569B?style=for-the-badge&logo=flutter&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-8-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
 
-# Project Vision
-
-Traditional cybersecurity education often focuses on theory.
-
-ForenShield bridges this gap by combining:
-
-- Interactive Cybersecurity Training
-- Digital Forensics
-- Incident Response
-- Evidence Analysis
-- Investigation Workflow
-- Simulation-Based Learning
-
-The platform is designed for students, colleges, cybersecurity clubs, and beginner security professionals.
+</div>
 
 ---
 
-# Architecture
+## 📖 Overview
 
+ForenShield is a modern cybersecurity learning and digital investigation platform designed to bridge the gap between theoretical knowledge and practical experience.
+
+Unlike traditional learning systems, ForenShield enables users to investigate realistic cyber incidents, analyze digital evidence, inspect network traffic, and perform incident response operations inside an immersive environment.
+
+The platform combines cybersecurity education, digital forensics, incident response, evidence analysis, and simulation-based learning into a unified ecosystem.
+
+---
+
+## 🎯 Vision
+
+Traditional cybersecurity education often focuses heavily on theory while providing limited exposure to real-world scenarios.
+
+ForenShield addresses this problem by combining:
+
+- Interactive cybersecurity training
+- Digital forensics
+- Incident response
+- Evidence analysis
+- Investigation workflow management
+- Simulation-based learning
+
+---
+
+## 🏗️ System Architecture
+
+```text
 Landing Website
         │
         ▼
@@ -37,37 +55,149 @@ PHP REST API
         │
         ▼
 MySQL Database
+```
 
 ---
 
-# Technology Stack
+## ⚙️ Technology Stack
 
-## Frontend
+### Frontend
 
 - React
 - TypeScript
 - Vite
-- TailwindCSS
+- Tailwind CSS
 - Framer Motion
 - Lucide Icons
 
-## Mobile
+### Mobile Application
 
 - Flutter
 
-## Backend
+### Backend
 
 - PHP REST API
 
-## Database
+### Database
 
 - MySQL
 
 ---
 
-# Design Language
+## 🧩 Core Modules
 
-The UI follows an enterprise digital forensics aesthetic inspired by:
+### Mission Control
+
+The central dashboard used to manage investigations.
+
+#### Features
+
+- Active investigations
+- Incident timelines
+- Threat intelligence
+- System monitoring
+- Evidence management
+
+---
+
+### Cyber Academy
+
+A practical learning environment for cybersecurity students.
+
+#### Features
+
+- Interactive lessons
+- Practical laboratories
+- Skill assessments
+- Quizzes and challenges
+- Progress tracking
+
+---
+
+### Investigation Lab
+
+A dedicated digital forensic workspace.
+
+#### Features
+
+- Log analysis
+- File inspection
+- Evidence verification
+- Timeline reconstruction
+- Chain-of-custody tracking
+
+---
+
+### Simulation Lab
+
+An isolated environment for attack simulations.
+
+#### Features
+
+- Phishing simulations
+- Malware analysis
+- Ransomware simulations
+- Network attacks
+- Social engineering exercises
+
+---
+
+### Reports Engine
+
+A reporting system for generating investigation summaries.
+
+#### Features
+
+- Timeline generation
+- Threat summaries
+- Risk assessments
+- Evidence reports
+- Export functionality
+
+---
+
+## 🔍 Example Investigation Data
+
+### Evidence Verification
+
+```text
+SHA-256 : 7f8a9b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a
+Status  : VERIFIED
+Signature: ED25519 VERIFIED
+Timestamp: 2026-07-30 21:08:01 UTC
+```
+
+---
+
+### Terminal Session
+
+```bash
+$ forenshield analyze capture.pcap
+
+Packets analyzed: 1248
+Suspicious hosts: 3
+Severity level: HIGH
+Target IP: 192.168.1.105
+```
+
+---
+
+### Chain of Custody
+
+```text
+[CHAIN-OF-CUSTODY VERIFIED]
+
+21:08:01 UTC → Evidence captured
+21:09:24 UTC → Hash generated
+21:10:37 UTC → Signature verified
+21:11:18 UTC → Report generated
+```
+
+---
+
+## 🎨 Design Philosophy
+
+The interface follows an enterprise-oriented digital forensics design language inspired by:
 
 - GitHub
 - Linear
@@ -75,242 +205,136 @@ The UI follows an enterprise digital forensics aesthetic inspired by:
 - Docker Desktop
 - Modern SOC dashboards
 
-The interface intentionally avoids:
+---
 
-- Cyberpunk themes
-- Neon overload
-- Gaming HUD aesthetics
-- Heavy glassmorphism
-- Excessive glow effects
+### Design Principles
 
-Instead it focuses on:
-
-- Investigation workflow
-- Clean hierarchy
-- Dark workstation interface
+- Readability first
+- Clear visual hierarchy
+- Functional motion design
 - Professional typography
-- Evidence-first layout
+- Evidence-first workflows
+- Minimal visual noise
 
 ---
 
-# Core Modules
+### Avoided Patterns
 
-## Mission Control
-
-Central dashboard for monitoring investigations.
-
-Features:
-
-- Live incidents
-- Threat overview
-- Active investigations
-- Investigation timeline
+- Neon cyberpunk aesthetics
+- Excessive glassmorphism
+- Heavy blur effects
+- Flashing animations
+- Floating particles
+- Gaming HUD interfaces
 
 ---
 
-## Cyber Academy
+## 🎬 Motion System
 
-Interactive learning platform including:
+### Allowed
 
-- Lessons
-- Quizzes
-- Practical Labs
-- Challenges
+- Hover interactions
+- Scanner pulses
+- Progress indicators
+- Fade transitions
+- Status animations
+- Subtle elevation effects
 
----
+### Avoided
 
-## Investigation Lab
-
-Digital forensic workspace where users:
-
-- Analyze evidence
-- Review logs
-- Inspect files
-- Trace attack chains
-- Build investigation reports
+- Continuous rotation
+- Excessive motion
+- Aggressive transitions
+- Decorative animations
+- Heavy shadows
 
 ---
 
-## Simulation Lab
+## 🎨 Color Palette
 
-Hands-on attack simulations including:
-
-- Phishing
-- Malware
-- Ransomware
-- Network Attacks
-- Social Engineering
-
----
-
-## Reports
-
-Automatically generated investigation summaries.
+| Element | Color |
+|----------|--------|
+| Background | `#0D1117` |
+| Cards | `#161B22` |
+| Borders | `#30363D` |
+| Primary | `#2F81F7` |
+| Success | `#2EA043` |
+| Warning | `#D29922` |
+| Danger | `#DA3633` |
+| Text | `#F0F6FC` |
+| Secondary Text | `#8B949E` |
 
 ---
 
-# Landing Page Sections
+## 🔠 Typography
 
-- Hero
-- Why Traditional Learning Fails
-- Core Modules
-- Investigation Preview
-- Simulation Overview
-- Academy Features
-- Cross Platform Architecture
-- Download App
+| Category | Font |
+|-----------|------|
+| Primary | Geist Sans |
+| Monospace | Geist Mono |
 
 ---
 
-# Motion Design
+## 📂 Project Structure
 
-Animations follow a minimal enterprise style.
-
-## Allowed
-
-✓ Scanner pulse
-
-✓ Breathing indicators
-
-✓ Progress animations
-
-✓ Hover elevation
-
-✓ Soft glow
-
-✓ Fade transitions
-
----
-
-## Avoid
-
-✗ Continuous rotation
-
-✗ Flashing elements
-
-✗ Heavy neon
-
-✗ Floating particles
-
-✗ Gaming HUD effects
-
-✗ Excessive blur
+```text
+src/
+│
+├── components/
+│   ├── animations/
+│   ├── app-mockups/
+│   ├── common/
+│   ├── landing/
+│   ├── sections/
+│   └── theme/
+│
+├── pages/
+├── routes/
+├── assets/
+└── styles/
+```
 
 ---
 
-# UI Principles
+## 🚀 Future Roadmap
 
-Every component should feel like software used by professional analysts.
-
-Priority:
-
-1. Readability
-
-2. Hierarchy
-
-3. Functionality
-
-4. Motion
-
-5. Decoration
-
----
-
-# Color Palette
-
-Background
-
-#0D1117
-
-Cards
-
-#161B22
-
-Border
-
-#30363D
-
-Primary
-
-#2F81F7
-
-Success
-
-#2EA043
-
-Warning
-
-#D29922
-
-Danger
-
-#DA3633
-
-Text
-
-#F0F6FC
-
-Secondary Text
-
-#8B949E
-
----
-
-# Typography
-
-Primary Font
-
-Geist Sans
-
-Monospace
-
-Geist Mono
-
----
-
-# Development Guidelines
-
-When adding new UI:
-
-- Keep layouts minimal.
-- Prioritize readability.
-- Use subtle motion only.
-- Never animate for decoration.
-- Every animation should communicate system state.
-
----
-
-# Future Roadmap
-
-- Authentication
-- User Profiles
-- Investigation Engine
-- Evidence Viewer
-- Malware Sandbox
-- Network Simulator
-- Achievement System
+- Authentication system
+- User profiles
+- Investigation engine
+- Malware analysis sandbox
+- Network traffic simulator
+- Achievement system
+- Certificate generation
 - Leaderboards
-- Certificates
-- AI Investigation Assistant
+- AI investigation assistant
 
 ---
 
-# Target Audience
+## 👥 Target Audience
 
 - Students
 - Colleges
-- Cybersecurity Clubs
+- Cybersecurity clubs
 - Beginners
-- Security Enthusiasts
+- Security enthusiasts
+- Digital investigators
 
 ---
 
-# License
+## 📜 License
 
-Academic Major Project
+**Academic Major Project**
 
 Parul Polytechnic Institute
 
-Computer Engineering
+Department of Computer Engineering
 
-For educational purposes only.
+This project is intended exclusively for educational and research purposes.
+
+---
+
+<div align="center">
+
+**Built with ❤️ for cybersecurity education.**
+
+</div>
