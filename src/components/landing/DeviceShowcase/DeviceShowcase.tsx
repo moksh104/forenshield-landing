@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/landing/Reveal";
+import { FadeContent } from "@/components/animations/FadeContent";
 import {
   MissionControlScreen,
   CaseDetailsScreen,
@@ -26,32 +27,34 @@ export function DeviceShowcase() {
       <div className="mx-auto max-w-[1400px]">
         <div className="text-center mb-16">
           <Reveal>
-            <h2 className="font-display font-bold tracking-tight text-white text-3xl sm:text-4xl">
-              Experience the <span className="text-primary text-glow-cyan">Platform</span>
+            <h2 className="font-display font-bold tracking-tight text-foreground text-3xl sm:text-4xl">
+              See the App in Action
             </h2>
           </Reveal>
           <Reveal delay={100}>
             <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
-              A comprehensive toolkit for modern digital forensics.
+              7 screens. One investigation workflow. Scroll to explore.
             </p>
           </Reveal>
         </div>
 
-        <div className="relative mx-auto w-[320px] h-[650px] sm:w-[360px] sm:h-[720px] rounded-[44px] border-[12px] border-black bg-black shadow-[0_30px_80px_-20px_oklch(0.55_0.22_260/0.4)] overflow-hidden group">
-          {/* Dynamic Notch */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120px] h-7 bg-black rounded-b-2xl z-20" />
-          
-          {/* Scroll Container */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="w-[360px] h-[800%] flex flex-col animate-phone-scroll group-hover:[animation-play-state:paused] focus-within:[animation-play-state:paused] origin-top-left scale-[0.835] sm:scale-100 transition-transform">
-              {screens.map((screen, i) => (
-                <div key={`${screen.id}-${i}`} className="w-full h-[12.5%] relative overflow-hidden">
-                  {screen.component}
-                </div>
-              ))}
+        <FadeContent delay={0.1} amount={0.2}>
+          <div className="relative mx-auto w-[320px] h-[650px] sm:w-[360px] sm:h-[720px] rounded-[44px] border-[12px] border-black bg-black shadow-[0_30px_80px_-20px_oklch(0.55_0.22_260/0.4)] overflow-hidden group">
+            {/* Dynamic Notch */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120px] h-7 bg-black rounded-b-2xl z-20" />
+            
+            {/* Scroll Container */}
+            <div className="absolute inset-0 overflow-hidden">
+              <div className="w-[360px] h-[800%] flex flex-col animate-phone-scroll group-hover:[animation-play-state:paused] focus-within:[animation-play-state:paused] origin-top-left scale-[0.835] sm:scale-100 transition-transform">
+                {screens.map((screen, i) => (
+                  <div key={`${screen.id}-${i}`} className="w-full h-[12.5%] relative overflow-hidden">
+                    {screen.component}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        </FadeContent>
       </div>
     </section>
   );

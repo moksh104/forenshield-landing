@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/landing/Reveal";
+import { FadeContent } from "@/components/animations/FadeContent";
 import {
   MissionControlScreen,
   CaseDetailsScreen,
@@ -21,8 +22,8 @@ export function WorkflowStory() {
       <div className="mx-auto max-w-[1200px]">
         <Reveal>
           <div className="text-center mb-24">
-            <h2 className="font-display font-bold tracking-tight text-white text-3xl sm:text-4xl">
-              From Alert to <span className="text-primary text-glow-cyan">Resolution</span>
+            <h2 className="font-display font-bold tracking-tight text-foreground text-3xl sm:text-4xl">
+              From Alert to <span className="text-primary">Resolution</span>
             </h2>
             <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
               Follow a concrete investigation workflow end-to-end.
@@ -37,7 +38,7 @@ export function WorkflowStory() {
               <div key={step.id} className={`flex flex-col md:flex-row items-center gap-12 lg:gap-24 ${isEven ? "" : "md:flex-row-reverse"}`}>
                 {/* Image / Mockup */}
                 <div className="flex-1 w-full">
-                  <Reveal delay={100}>
+                  <FadeContent delay={0.1} amount={0.2}>
                     <div className="relative aspect-[4/3] rounded-2xl glass flex flex-col items-center justify-center p-8 overflow-hidden group hover:border-primary/40 transition-all duration-[250ms] ease-out hover:-translate-y-1 hover:shadow-[0_8px_30px_-10px_oklch(0.55_0.22_260/0.4)]">
                       <div className="absolute inset-0 grid-bg opacity-20" />
                       
@@ -46,17 +47,19 @@ export function WorkflowStory() {
                         {step.component}
                       </div>
                     </div>
-                  </Reveal>
+                  </FadeContent>
                 </div>
                 {/* Text */}
                 <div className="flex-1 w-full space-y-4">
-                  <Reveal delay={200}>
-                    <div className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-primary/20 text-primary font-mono text-xs font-bold border border-primary/40 shadow-[0_0_12px_oklch(0.55_0.22_260/0.4)]">
-                      0{step.id}
-                    </div>
-                    <h3 className="text-2xl sm:text-3xl font-display font-bold text-white mt-4">{step.title}</h3>
+                  <div>
+                    <FadeContent delay={0.2} amount={0.2}>
+                      <div className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-primary/20 text-primary font-mono text-xs font-bold border border-primary/40 shadow-[0_0_12px_oklch(0.55_0.22_260/0.4)]">
+                        0{step.id}
+                      </div>
+                    </FadeContent>
+                    <h3 className="text-2xl sm:text-3xl font-display font-bold text-foreground mt-4">{step.title}</h3>
                     <p className="text-muted-foreground leading-relaxed mt-4 text-lg">{step.desc}</p>
-                  </Reveal>
+                  </div>
                 </div>
               </div>
             );

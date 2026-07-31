@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Globe } from "lucide-react";
+import SplitText from "@/components/animations/SplitText";
 
 /* World topojson served from unpkg CDN */
 const GEO_URL =
@@ -12,20 +13,20 @@ type ThreatMarker = {
 };
 
 const THREAT_MARKERS: ThreatMarker[] = [
-  { name: "New York",  coords: [-74.0,  40.7], category: "malware" },
+  { name: "New York", coords: [-74.0, 40.7], category: "malware" },
   { name: "São Paulo", coords: [-46.6, -23.5], category: "phishing" },
-  { name: "London",    coords: [ -0.1,  51.5], category: "breach" },
-  { name: "Lagos",     coords: [  3.4,   6.5], category: "ransomware" },
-  { name: "Moscow",    coords: [ 37.6,  55.7], category: "ransomware" },
-  { name: "Mumbai",    coords: [ 72.8,  19.0], category: "phishing" },
-  { name: "Beijing",   coords: [116.4,  39.9], category: "malware" },
-  { name: "Sydney",    coords: [151.2, -33.8], category: "breach" },
+  { name: "London", coords: [-0.1, 51.5], category: "breach" },
+  { name: "Lagos", coords: [3.4, 6.5], category: "ransomware" },
+  { name: "Moscow", coords: [37.6, 55.7], category: "ransomware" },
+  { name: "Mumbai", coords: [72.8, 19.0], category: "phishing" },
+  { name: "Beijing", coords: [116.4, 39.9], category: "malware" },
+  { name: "Sydney", coords: [151.2, -33.8], category: "breach" },
 ];
 
 const CATEGORY: Record<ThreatMarker["category"], { color: string; label: string }> = {
-  malware:    { color: "#EF4444", label: "Malware" },
-  phishing:   { color: "#F59E0B", label: "Phishing" },
-  breach:     { color: "#3B82F6", label: "Data Breach" },
+  malware: { color: "#EF4444", label: "Malware" },
+  phishing: { color: "#F59E0B", label: "Phishing" },
+  breach: { color: "#3B82F6", label: "Data Breach" },
   ransomware: { color: "#A855F7", label: "Ransomware" },
 };
 
@@ -43,15 +44,21 @@ export function ThreatMap() {
   }, []);
 
   return (
-    <div className="relative h-full rounded-2xl overflow-hidden border border-white/[0.08] bg-gradient-to-br from-[oklch(0.14_0.03_260)] to-[oklch(0.08_0.02_260)]">
-      <div className="flex items-center justify-between px-4 py-3 border-b border-white/5">
+    <div className="relative h-full rounded-2xl overflow-hidden border border-border bg-card shadow-sm dark:border-white/[0.08] dark:bg-gradient-to-br dark:from-[oklch(0.14_0.03_260)] dark:to-[oklch(0.08_0.02_260)]">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-border/40 dark:border-white/5">
         <div className="flex items-center gap-2">
-          <Globe className="h-4 w-4 text-primary" />
-          <span className="text-white font-semibold text-sm tracking-wide">
-            LIVE THREAT MAP
-          </span>
+          <Globe className="h-4 w-4 text-blue-600 dark:text-primary fill-blue-600/10 dark:fill-none" />
+          <SplitText
+            text="LIVE THREAT MAP"
+            tag="h3"
+            splitType="chars"
+            delay={40}
+            duration={0.6}
+            className="text-slate-900 dark:text-white font-bold text-sm tracking-wide"
+            textAlign="left"
+          />
         </div>
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-success/15 border border-success/30 px-2 py-0.5 text-[10px] font-mono text-success">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-success/15 border border-success/30 px-2 py-0.5 text-[10px] font-mono text-success font-semibold">
           <span className="relative flex h-1.5 w-1.5">
             <span className="absolute inset-0 rounded-full bg-success/70 animate-ping" />
             <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-success" />
@@ -60,7 +67,7 @@ export function ThreatMap() {
         </span>
       </div>
 
-      <div className="relative aspect-[16/9] bg-[radial-gradient(ellipse_at_center,oklch(0.20_0.05_260/0.5),transparent_70%)]">
+      <div className="relative aspect-[16/9] bg-slate-100/70 dark:bg-[#080B11] dark:bg-[radial-gradient(ellipse_at_center,oklch(0.20_0.05_260/0.5),transparent_70%)]">
         {Maps ? (
           <Maps.ComposableMap
             projection="geoEqualEarth"
@@ -117,29 +124,29 @@ export function ThreatMap() {
         )}
 
         {/* Attack counters overlay */}
-        <div className="absolute top-3 right-3 flex gap-2 font-mono pointer-events-none">
+        <div className="absolute top-3 right-3 flex gap-2 font-mono pointer-events-none z-10">
           {[
             { c: "#EF4444", label: "ATK", n: "1,284" },
             { c: "#F59E0B", label: "PHS", n: "842" },
             { c: "#3B82F6", label: "BRC", n: "37" },
           ].map((s, i) => (
-            <div key={i} className="rounded-md border border-white/10 bg-black/50 backdrop-blur px-2 py-1 text-[9px]">
-              <div className="flex items-center gap-1 text-muted-foreground tracking-widest">
+            <div key={i} className="rounded-lg border border-slate-200/90 bg-white/90 shadow-sm dark:border-white/10 dark:bg-black/75 dark:shadow-none backdrop-blur px-2.5 py-1.5 text-[9px]">
+              <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 font-bold tracking-widest">
                 <span className="h-1.5 w-1.5 rounded-full animate-blink" style={{ background: s.c, boxShadow: `0 0 6px ${s.c}` }} />
                 {s.label}
               </div>
-              <div className="text-white font-semibold text-[11px] leading-none mt-0.5">{s.n}</div>
+              <div className="text-slate-900 dark:text-white font-extrabold text-[11px] leading-none mt-1">{s.n}</div>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="px-4 py-3 border-t border-white/5 flex flex-col gap-3">
+      <div className="px-4 py-3 border-t border-border/40 dark:border-white/5 flex flex-col gap-3 bg-slate-50/50 dark:bg-transparent">
         <div className="flex flex-wrap items-center gap-4 text-[11px] font-mono">
           {(Object.keys(CATEGORY) as ThreatMarker["category"][]).map((k) => {
             const { color, label } = CATEGORY[k];
             return (
-              <span key={k} className="inline-flex items-center gap-1.5 text-muted-foreground">
+              <span key={k} className="inline-flex items-center gap-1.5 text-slate-700 dark:text-muted-foreground font-semibold">
                 <span
                   className="h-2 w-2 rounded-full animate-pulse-glow"
                   style={{ background: color, boxShadow: `0 0 8px ${color}` }}
@@ -149,7 +156,7 @@ export function ThreatMap() {
             );
           })}
         </div>
-        <div className="text-[10px] text-muted-foreground font-mono tracking-wider">
+        <div className="text-[10px] text-slate-500 dark:text-muted-foreground font-mono tracking-wider">
           Live Threat Intelligence Visualization
         </div>
       </div>

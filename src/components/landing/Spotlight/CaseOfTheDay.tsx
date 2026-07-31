@@ -1,93 +1,168 @@
 import { useState } from "react";
-import { Eye, ArrowRight } from "lucide-react";
+import { ArrowRight, ShieldAlert, Eye } from "lucide-react";
 import { CasePreviewModal } from "./CasePreviewModal";
+import { CountUp } from "@/components/animations/CountUp";
 
 export function CaseOfTheDay() {
   const [modalOpen, setModalOpen] = useState(false);
   return (
     <>
-      <div className="relative h-full rounded-[20px] overflow-hidden border border-primary/15 group transition-all duration-[250ms] ease-out hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_8px_30px_-10px_oklch(0.55_0.22_260/0.4)]">
-        {/* Moody hero */}
-        <div className="relative aspect-[4/3] overflow-hidden">
-          {/* Base moody gradient */}
+      <div className="relative h-full rounded-[20px] overflow-hidden border border-border/80 bg-card shadow-sm dark:border-primary/15 group transition-all duration-[250ms] ease-out hover:-translate-y-1 hover:border-primary/40 shadow-slate-200/40 dark:shadow-none">
+        {/* Moody hero with digital transaction trail illustration */}
+        <div className="relative aspect-[4/3] overflow-hidden bg-[#0A0D14]">
+          {/* Base tech background gradient */}
           <div
             className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(ellipse 90% 70% at 50% 100%, #3B0A0A 0%, #1A0510 35%, #0A0E1A 70%, #05070F 100%)",
+                "radial-gradient(circle at 80% 50%, oklch(0.60 0.24 25 / 0.18), transparent 55%), radial-gradient(circle at 20% 50%, oklch(0.55 0.22 260 / 0.18), transparent 55%), #080B11",
             }}
           />
-          {/* Red glow behind figure */}
-          <div
-            className="absolute inset-0 motion-safe:animate-[pulse-glow_4s_ease-in-out_infinite]"
-            style={{
-              background:
-                "radial-gradient(ellipse 60% 45% at 50% 55%, oklch(0.65 0.24 25 / 0.45), transparent 65%)",
-            }}
-          />
-          {/* Grain / noise texture (SVG fractal, tiled) */}
+
+          {/* Grid overlay */}
           <div
             aria-hidden
-            className="absolute inset-0 mix-blend-overlay opacity-[0.35] pointer-events-none"
-            style={{
-              backgroundImage:
-                "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.7'/></svg>\")",
-              backgroundSize: "160px 160px",
-            }}
+            className="absolute inset-0 grid-bg opacity-25 [mask-image:radial-gradient(ellipse_at_center,black_50%,transparent_85%)] pointer-events-none"
           />
-          {/* Vignette */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background:
-                "radial-gradient(ellipse 100% 80% at 50% 50%, transparent 45%, #000 130%)",
-            }}
-          />
-          {/* Hooded silhouette */}
-          <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-[1.06]">
-            <svg viewBox="0 0 200 150" className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMax slice">
-              {/* Body */}
+
+          {/* Transaction trail SVG Illustration */}
+          <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-[1.03]">
+            <svg viewBox="0 0 400 240" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                {/* Vivid Gradients */}
+                <linearGradient id="flow-cyan-blue" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.9" />
+                  <stop offset="100%" stopColor="#3B82F6" stopOpacity="1" />
+                </linearGradient>
+
+                <linearGradient id="flow-blue-red" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.8" />
+                  <stop offset="50%" stopColor="#F43F5E" stopOpacity="0.9" />
+                  <stop offset="100%" stopColor="#EF4444" stopOpacity="1" />
+                </linearGradient>
+
+                <radialGradient id="red-glow-strong" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#EF4444" stopOpacity="0.5" />
+                  <stop offset="60%" stopColor="#EF4444" stopOpacity="0.15" />
+                  <stop offset="100%" stopColor="#EF4444" stopOpacity="0" />
+                </radialGradient>
+
+                <radialGradient id="cyan-glow-strong" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.45" />
+                  <stop offset="60%" stopColor="#38BDF8" stopOpacity="0.12" />
+                  <stop offset="100%" stopColor="#38BDF8" stopOpacity="0" />
+                </radialGradient>
+              </defs>
+
+              {/* Background Grid Pattern */}
+              <pattern id="grid-dots" width="20" height="20" patternUnits="userSpaceOnUse">
+                <circle cx="2" cy="2" r="1" fill="rgba(255,255,255,0.06)" />
+              </pattern>
+              <rect width="100%" height="100%" fill="url(#grid-dots)" />
+
+              {/* Glowing Halos */}
+              <circle cx="75" cy="108" r="62" fill="url(#cyan-glow-strong)" />
+              <circle cx="325" cy="108" r="70" fill="url(#red-glow-strong)" />
+
+              {/* PERFECTLY ALIGNED DASHED FLOW PATHS (Center Y = 108) */}
               <path
-                d="M100 38 Q66 40 60 82 L52 150 L148 150 L140 82 Q134 40 100 38 Z"
-                fill="#000"
-                opacity="0.92"
+                d="M 103 108 L 175 108"
+                stroke="url(#flow-cyan-blue)"
+                strokeWidth="3.5"
+                strokeDasharray="6 4.5"
+                strokeLinecap="round"
               />
-              {/* Inner hood shadow */}
               <path
-                d="M78 68 Q100 52 122 68 L120 96 Q100 104 80 96 Z"
-                fill="#000"
+                d="M 225 108 L 300 108"
+                stroke="url(#flow-blue-red)"
+                strokeWidth="3.5"
+                strokeDasharray="6 4.5"
+                strokeLinecap="round"
               />
-              {/* Face rim highlight */}
-              <path
-                d="M76 68 Q100 50 124 68"
-                fill="none"
-                stroke="oklch(0.55 0.22 25 / 0.7)"
-                strokeWidth="1"
-              />
-              {/* Glowing eyes */}
-              <ellipse cx="90" cy="82" rx="3" ry="1.6" fill="#EF4444">
-                <animate attributeName="opacity" values="1;0.35;1" dur="2.4s" repeatCount="indefinite" />
-              </ellipse>
-              <ellipse cx="110" cy="82" rx="3" ry="1.6" fill="#EF4444">
-                <animate attributeName="opacity" values="0.35;1;0.35" dur="2.4s" repeatCount="indefinite" />
-              </ellipse>
-              {/* Shoulder edge highlight */}
-              <path d="M60 100 Q60 130 68 150" fill="none" stroke="oklch(0.55 0.22 25 / 0.5)" strokeWidth="1" />
-              <path d="M140 100 Q140 130 132 150" fill="none" stroke="oklch(0.55 0.22 25 / 0.5)" strokeWidth="1" />
+
+              {/* Pulsing In-Transit Particles */}
+              <circle r="4" fill="#38BDF8" style={{ filter: "drop-shadow(0 0 6px #38BDF8)" }}>
+                <animateMotion dur="2.2s" repeatCount="indefinite" path="M 103 108 L 175 108" />
+              </circle>
+              <circle r="4.5" fill="#EF4444" style={{ filter: "drop-shadow(0 0 8px #EF4444)" }}>
+                <animateMotion dur="1.8s" repeatCount="indefinite" path="M 225 108 L 300 108" />
+              </circle>
+
+              {/* NODE 1 (LEFT): Smartphone / Victim App (Center Y = 108) */}
+              <g transform="translate(75, 108)">
+                <rect x="-28" y="-45" width="56" height="90" rx="9" fill="#0F172A" stroke="#38BDF8" strokeWidth="2.2" />
+                <rect x="-23" y="-38" width="46" height="74" rx="5" fill="#1E293B" opacity="0.85" />
+                <rect x="-6" y="-42" width="12" height="2.5" rx="1.2" fill="#334155" />
+                {/* UPI Icon */}
+                <circle cx="0" cy="-14" r="11.5" fill="#38BDF8" fillOpacity="0.2" stroke="#38BDF8" strokeWidth="1.4" />
+                <path d="M -3.5 -14 L 3.5 -14 M 0.8 -17.5 L 4.5 -14 L 0.8 -10.5" stroke="#38BDF8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                {/* Amount */}
+                <text x="0" y="8" fill="#F8FAFC" fontSize="8" fontFamily="monospace" fontWeight="bold" textAnchor="middle">₹25,000</text>
+                <text x="0" y="18" fill="#94A3B8" fontSize="6" fontFamily="monospace" textAnchor="middle">SENT via UPI</text>
+                {/* Success Check */}
+                <circle cx="0" cy="27" r="4.5" fill="#10B981" />
+                <path d="M -2 27 L -0.6 28.3 L 2.3 25.7" stroke="#FFFFFF" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+
+                {/* Node Label (Generous 17px breathing room below phone frame) */}
+                <text x="0" y="62" fill="#94A3B8" fontSize="8.5" fontFamily="monospace" fontWeight="600" textAnchor="middle">VICTIM DEVICE</text>
+              </g>
+
+              {/* NODE 2 (MIDDLE): NPCI Payment Relay (Center Y = 108) */}
+              <g transform="translate(200, 108)">
+                <circle cx="0" cy="0" r="25" fill="#0F172A" stroke="#38BDF8" strokeWidth="2.2" />
+                <circle cx="0" cy="0" r="17" fill="#0284C7" fillOpacity="0.25" />
+                {/* Bank / Server Icon */}
+                <path d="M -8.5 -3 L 0 -9.5 L 8.5 -3 M -6.5 0 L -6.5 5.5 M -2 0 L -2 5.5 M 2.5 0 L 2.5 5.5 M 7 0 L 7 5.5 M -9.5 8.5 L 9.5 8.5" stroke="#38BDF8" strokeWidth="1.5" strokeLinecap="round" />
+                {/* Tag */}
+                <rect x="-34" y="36" width="68" height="16" rx="4" fill="#0F172A" stroke="#334155" strokeWidth="1" />
+                <text x="0" y="47" fill="#CBD5E1" fontSize="7.5" fontFamily="monospace" fontWeight="bold" textAnchor="middle">NPCI RELAY</text>
+              </g>
+
+              {/* NODE 3 (RIGHT): Flagged Mule Account (Center Y = 108) */}
+              <g transform="translate(325, 108)">
+                {/* Pulsing Target Rings */}
+                <circle cx="0" cy="0" r="35" fill="none" stroke="#EF4444" strokeWidth="1.2" strokeOpacity="0.5" strokeDasharray="4 3">
+                  <animate attributeName="r" values="30;42;30" dur="2.6s" repeatCount="indefinite" />
+                  <animate attributeName="strokeOpacity" values="0.7;0.1;0.7" dur="2.6s" repeatCount="indefinite" />
+                </circle>
+
+                {/* Main Circle */}
+                <circle cx="0" cy="0" r="25" fill="#250B10" stroke="#EF4444" strokeWidth="2.5" />
+                <circle cx="0" cy="0" r="17" fill="#EF4444" fillOpacity="0.25" />
+
+                {/* Alert Shield Icon */}
+                <path d="M -6 -7 C -6 -7 0 -10 0 -10 C 0 -10 6 -7 6 -7 C 6 2 0 8 0 8 C 0 8 -6 2 -6 -7 Z" fill="none" stroke="#EF4444" strokeWidth="1.8" strokeLinejoin="round" />
+                <path d="M 0 -3.5 L 0 1 M 0 3.5 L 0 4.2" stroke="#EF4444" strokeWidth="1.8" strokeLinecap="round" />
+
+                {/* FLAGGED MULE Badge */}
+                <rect x="-45" y="36" width="90" height="18" rx="4" fill="#3F0D15" stroke="#EF4444" strokeWidth="1.2" />
+                <text x="0" y="48" fill="#FF6B6B" fontSize="7.5" fontFamily="monospace" fontWeight="bold" textAnchor="middle">MULE ACCOUNT</text>
+              </g>
+
+              {/* Telemetry Labels (Consistent 16px side & 20px bottom padding) */}
+              <rect x="16" y="204" width="135" height="18" rx="4" fill="#0F172A" fillOpacity="0.95" stroke="rgba(56,189,248,0.3)" />
+              <text x="23" y="216" fill="#38BDF8" fontSize="7.5" fontFamily="monospace" fontWeight="bold">TRAIL: #FS-UPI-8942</text>
+
+              <rect x="249" y="204" width="135" height="18" rx="4" fill="#3F0D15" fillOpacity="0.95" stroke="#EF4444" strokeOpacity="0.5" />
+              <text x="256" y="216" fill="#FF6B6B" fontSize="7.5" fontFamily="monospace" fontWeight="bold">STATUS: FLAGGED MULE</text>
             </svg>
           </div>
+
           {/* Scanline sweep */}
           <div
             aria-hidden
-            className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-danger/60 to-transparent motion-safe:animate-scan"
+            className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent motion-safe:animate-scan pointer-events-none"
             style={{ top: 0 }}
           />
+
           {/* Bottom fade for text legibility */}
-          <div className="absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-[oklch(0.10_0.02_260)]/95 via-[oklch(0.10_0.02_260)]/75 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-[30%] bg-gradient-to-t from-[#0B0F17] to-transparent pointer-events-none" />
+
           {/* Badge */}
-          <span className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-md bg-white/10 border border-white/20 px-2 py-0.5 text-[10px] font-mono tracking-wider text-white backdrop-blur">
-            <Eye className="h-3 w-3" /> FEATURED INVESTIGATION
+          <span className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-md bg-slate-900/80 border border-slate-700/80 px-2.5 py-1 text-[10px] font-mono tracking-wider text-white backdrop-blur shadow-sm">
+            <Eye className="h-3 w-3 text-primary" /> FEATURED INVESTIGATION
           </span>
+
           {/* Animated warning indicator */}
           <div className="absolute top-3 right-3 h-8 w-8" aria-label="Warning">
             <span className="absolute inset-0 rounded-full bg-danger/30 motion-safe:animate-[ping-soft_2s_ease-in-out_infinite]" />
@@ -100,24 +175,39 @@ export function CaseOfTheDay() {
             </div>
           </div>
         </div>
-        <div className="p-4 bg-gradient-to-br from-[oklch(0.16_0.03_260)] to-[oklch(0.10_0.02_260)]">
-          <div className="text-white font-display font-bold text-lg leading-tight">
+        <div className="p-4 bg-card">
+          <div className="text-foreground font-display font-bold text-lg leading-tight">
             UPI Fraud Investigation
           </div>
           <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
             A user lost ₹25,000 in a UPI scam. Trace the transaction trail,
             identify the mule account, and recover lost funds.
           </p>
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            <span className="rounded-md bg-danger/15 border border-danger/30 px-2 py-0.5 text-[10px] font-medium text-danger">
-              Medium
-            </span>
-            <span className="rounded-md bg-primary/15 border border-primary/30 px-2 py-0.5 text-[10px] font-medium text-primary">
-              4 Evidence
-            </span>
-            <span className="rounded-md bg-danger/15 border border-danger/30 px-2 py-0.5 text-[10px] font-medium text-danger">
-              +250 XP
-            </span>
+          <div className="mt-3 flex flex-col gap-3">
+            <div className="flex flex-wrap gap-1.5">
+              <span className="rounded-md bg-danger/15 border border-danger/30 px-2 py-0.5 text-[10px] font-medium text-danger">
+                Risk Level: High
+              </span>
+              <span className="rounded-md bg-danger/15 border border-danger/30 px-2 py-0.5 text-[10px] font-medium text-danger">
+                <CountUp from={0} to={250} duration={2} delay={0.2} prefix="+" suffix=" XP Reward" />
+              </span>
+            </div>
+
+            {/* Progress Indicator */}
+            <div className="flex flex-col gap-1.5 mt-1">
+              <div className="flex justify-between items-center text-[10px] font-mono text-muted-foreground">
+                <span>EVIDENCE COLLECTED</span>
+                <span className="font-bold text-primary">
+                  <CountUp from={0} to={4} duration={2} delay={0.2} /> / 5
+                </span>
+              </div>
+              <div className="h-1.5 w-full bg-border rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-primary rounded-full transition-all duration-1000 ease-out"
+                  style={{ width: "80%" }}
+                />
+              </div>
+            </div>
           </div>
           <button
             onClick={() => setModalOpen(true)}

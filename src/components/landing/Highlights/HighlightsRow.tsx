@@ -1,195 +1,203 @@
-import { useRef } from "react";
-import { Layers, Target, Zap, Cpu } from "lucide-react";
-import { Reveal } from "@/components/landing/Reveal";
-import { motion } from "framer-motion";
-import { CountUp } from "@/components/landing/CountUp";
+import { Layers, Target, Zap, Cpu, CheckCircle2, Activity, Terminal } from "lucide-react";
+import { FadeContent } from "@/components/animations/FadeContent";
+import { CountUp } from "@/components/animations/CountUp";
+import { SpotlightCard } from "@/components/animations/SpotlightCard";
 
 export function HighlightsRow() {
-  const highlights = [
-    {
-      number: "01",
-      icon: Layers,
-      value: 5,
-      suffix: "",
-      title: "Core Modules",
-      desc: "Mission Control, Cyber Academy, Investigation Lab, Simulation Lab, and Reports working together as one platform.",
-      tone: "primary",
-    },
-    {
-      number: "02",
-      icon: Target,
-      value: 20,
-      suffix: "+",
-      title: "Planned Investigations",
-      desc: "Real-world cybersecurity scenarios covering phishing, malware, ransomware, digital forensics, and incident response.",
-      tone: "success",
-    },
-    {
-      number: "03",
-      icon: Zap,
-      title: "Interactive Learning",
-      desc: "Hands-on simulations, guided investigations, and practical cybersecurity exercises instead of theory-only learning.",
-      tone: "warning",
-    },
-    {
-      number: "04",
-      icon: Cpu,
-      title: "Cross-Platform Architecture",
-      desc: "Designed for Flutter Mobile, Web Dashboard, REST API, PostgreSQL, Unity simulations, and Cloud-based services.",
-      tone: "danger",
-    },
-  ] as const;
-
   return (
-    <section className="relative px-4 sm:px-8 pb-4">
+    <section className="relative px-4 sm:px-8 pb-8 pt-4">
       <div className="mx-auto max-w-[1400px]">
-        <Reveal>
-          <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true, margin: "0px 0px -50px 0px" }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="mb-8 h-px origin-left bg-gradient-to-r from-primary via-primary/20 to-transparent"
-          />
-        </Reveal>
+        {/* Asymmetric Bento Grid (4 Cards with Varying Structures & Interactive Spotlight Hover) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
-          {highlights.map((item, index) => (
-            <Reveal
-              key={index}
-              delay={index * 80}
-              className="flex h-full w-full"
-            >
-              <HighlightCard {...item} />
-            </Reveal>
-          ))}
+          {/* BENTO CARD 1 — FEATURED CARD (Spans 2 columns on lg) */}
+          <div className="md:col-span-2 lg:col-span-2 flex h-full w-full">
+            <FadeContent delay={0.1} amount={0.2} className="h-full w-full">
+              <SpotlightCard spotlightRadius={240} className="h-full w-full">
+                <div className="group relative flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl border border-border bg-card p-6 sm:p-8 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-primary">
+                        <Zap className="h-5 w-5" />
+                      </span>
+                      <span className="font-mono text-xs font-semibold text-primary tracking-widest uppercase">
+                        CORE CAPABILITY
+                      </span>
+                    </div>
+
+                    <div className="mt-6">
+                      <span className="font-mono text-xs font-semibold tracking-widest text-muted-foreground uppercase">
+                        01 · Hands-On Training
+                      </span>
+                      <h3 className="mt-1 text-2xl sm:text-3xl font-display font-bold text-foreground tracking-tight">
+                        Interactive Investigations
+                      </h3>
+                      <p className="mt-3 text-base leading-relaxed text-muted-foreground max-w-xl">
+                        Extract RAM artifacts, trace C2 traffic, and isolate malware in live sandboxes — using the same tools and evidence formats as real SOC workflows.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Inline Progress Graphic Widget */}
+                  <div className="mt-6 p-4 rounded-xl border border-border bg-muted/40">
+                    <div className="flex items-center justify-between text-xs font-mono font-semibold text-muted-foreground mb-2">
+                      <span>LAB MASTERY PROGRESS</span>
+                      <span className="text-primary font-bold">
+                        <CountUp from={0} to={87} duration={2} suffix="%" />
+                      </span>
+                    </div>
+                    <div className="h-2 w-full overflow-hidden rounded-full bg-border">
+                      <div className="h-full bg-primary rounded-full w-[87%] transition-all duration-1000" />
+                    </div>
+                  </div>
+
+                  {/* Feature Checkmarks */}
+                  <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 pt-6 border-t border-border">
+                    <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+                      <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
+                      <span>Guided Simulation Labs</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+                      <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
+                      <span>Real Artifact Analysis</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+                      <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
+                      <span>Automated Scoring</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+                      <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
+                      <span>MITRE ATT&CK Mapping</span>
+                    </div>
+                  </div>
+                </div>
+              </SpotlightCard>
+            </FadeContent>
+          </div>
+
+          {/* BENTO CARD 2 — 5 Core Modules */}
+          <div className="md:col-span-1 lg:col-span-1 flex h-full w-full">
+            <FadeContent delay={0.2} amount={0.2} className="h-full w-full">
+              <SpotlightCard spotlightRadius={200} className="h-full w-full">
+                <div className="group relative flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-primary">
+                        <Layers className="h-5 w-5" />
+                      </span>
+                      <span className="font-mono text-xs font-semibold tracking-widest text-muted-foreground">
+                        02
+                      </span>
+                    </div>
+
+                    <div className="mt-6">
+                      <div className="flex items-baseline gap-1 text-4xl font-display font-bold text-foreground">
+                        <CountUp from={0} to={5} duration={2} delay={0.2} />
+                        <span className="text-lg text-muted-foreground font-normal">Modules</span>
+                      </div>
+                      <h3 className="mt-2 text-xl font-display font-bold text-foreground tracking-tight">
+                        Unified Command Post
+                      </h3>
+                      <p className="mt-2 text-xs sm:text-sm leading-relaxed text-muted-foreground">
+                        Academy, Simulation Lab, Investigation Lab, Timeline, and Mission Control — all under one roof.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Module Pills Array */}
+                  <div className="mt-6 flex flex-wrap gap-1.5 pt-4 border-t border-border">
+                    {["Mission Control", "Academy", "Lab", "Simulations", "Reports"].map((mod, i) => (
+                      <span key={i} className="rounded-md border border-border bg-muted/60 px-2 py-0.5 text-[11px] font-mono text-muted-foreground">
+                        {mod}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </SpotlightCard>
+            </FadeContent>
+          </div>
+
+          {/* BENTO CARD 3 — 20+ Planned Investigations */}
+          <div className="md:col-span-1 lg:col-span-1 flex h-full w-full">
+            <FadeContent delay={0.3} amount={0.2} className="h-full w-full">
+              <SpotlightCard spotlightRadius={200} className="h-full w-full">
+                <div className="group relative flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-primary">
+                        <Target className="h-5 w-5" />
+                      </span>
+                      <span className="font-mono text-xs font-semibold tracking-widest text-muted-foreground">
+                        03
+                      </span>
+                    </div>
+
+                    <div className="mt-6">
+                      <div className="flex items-baseline gap-1 text-4xl font-display font-bold text-foreground">
+                        <CountUp from={0} to={20} duration={2} delay={0.2} suffix="+" />
+                      </div>
+                      <h3 className="mt-2 text-xl font-display font-bold text-foreground tracking-tight">
+                        Investigation Scenarios
+                      </h3>
+                      <p className="mt-2 text-xs sm:text-sm leading-relaxed text-muted-foreground">
+                        Insider leaks, phishing kits, process injection, and UPI fraud — each with real evidence files.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Scenario Category Badges */}
+                  <div className="mt-6 flex flex-wrap gap-1.5 pt-4 border-t border-border">
+                    {["Phishing", "Insider Threats", "Injection", "Forensics"].map((tag, i) => (
+                      <span key={i} className="rounded-md border border-border bg-muted/60 px-2 py-0.5 text-[11px] font-mono text-muted-foreground">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </SpotlightCard>
+            </FadeContent>
+          </div>
+
+          {/* BENTO CARD 4 — High-Performance Architecture (Spans full width) */}
+          <div className="md:col-span-2 lg:col-span-4 flex h-full w-full">
+            <FadeContent delay={0.4} amount={0.2} className="h-full w-full">
+              <SpotlightCard spotlightRadius={240} className="h-full w-full">
+                <div className="group relative flex h-full w-full flex-col sm:flex-row sm:items-center justify-between gap-6 overflow-hidden rounded-2xl border border-border bg-card p-6 sm:p-8 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
+                  <div className="flex items-start gap-4">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-primary shrink-0">
+                      <Cpu className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <span className="font-mono text-xs font-semibold tracking-widest text-muted-foreground uppercase">
+                        04 · System Design
+                      </span>
+                      <h3 className="mt-1 text-xl sm:text-2xl font-display font-bold text-foreground tracking-tight">
+                        Built on PostgreSQL, Flutter, and Unity
+                      </h3>
+                      <p className="mt-1 text-sm leading-relaxed text-muted-foreground max-w-xl">
+                        PostgreSQL telemetry backend, Flutter cross-platform client, Unity-powered 3D simulations, and a REST API connecting all five modules.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Tech Stack Badges */}
+                  <div className="flex flex-wrap gap-2 shrink-0 sm:max-w-xs">
+                    {["Flutter", "Web API", "PostgreSQL", "Unity", "Cloud"].map((tech, i) => (
+                      <span key={i} className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-muted/50 px-3 py-1 text-xs font-mono font-medium text-foreground">
+                        <Terminal className="h-3 w-3 text-muted-foreground" />
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </SpotlightCard>
+            </FadeContent>
+          </div>
+
         </div>
       </div>
     </section>
   );
 }
 
-function HighlightCard({
-  icon: Icon,
-  number,
-  value,
-  suffix,
-  title,
-  desc,
-  tone,
-}: {
-  icon: any;
-  number: string;
-  value?: number;
-  suffix?: string;
-  title: string;
-  desc: string;
-  tone: "primary" | "success" | "warning" | "danger";
-}) {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  const handleMouseMove = (
-    e: React.MouseEvent<HTMLDivElement>
-  ) => {
-    if (!cardRef.current) return;
-
-    const rect = cardRef.current.getBoundingClientRect();
-
-    cardRef.current.style.setProperty(
-      "--mouse-x",
-      `${e.clientX - rect.left}px`
-    );
-
-    cardRef.current.style.setProperty(
-      "--mouse-y",
-      `${e.clientY - rect.top}px`
-    );
-  };
-
-  const accent = {
-    primary: {
-      text: "text-[#2F81F7]",
-      border: "group-hover:border-[#2F81F7]/50",
-      glow: "rgba(47,129,247,.08)",
-    },
-
-    success: {
-      text: "text-[#2EA043]",
-      border: "group-hover:border-[#2EA043]/50",
-      glow: "rgba(46,160,67,.08)",
-    },
-
-    warning: {
-      text: "text-[#D29922]",
-      border: "group-hover:border-[#D29922]/50",
-      glow: "rgba(210,153,34,.08)",
-    },
-
-    danger: {
-      text: "text-[#DA3633]",
-      border: "group-hover:border-[#DA3633]/50",
-      glow: "rgba(218,54,51,.08)",
-    },
-  }[tone];
-
-  return (
-    <div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      className={`group relative flex h-full w-full cursor-default flex-col overflow-hidden rounded-2xl border border-[#30363D] bg-[#161B22] p-6 shadow-none transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-[#1C2128] hover:shadow-[0_14px_36px_rgba(0,0,0,.28)] ${accent.border}`}
-    >
-      {/* Spotlight */}
-      <div
-        className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-all duration-500 group-hover:opacity-100"
-        style={{
-          background: `
-            radial-gradient(
-              180px circle at var(--mouse-x) var(--mouse-y),
-              ${accent.glow} 0%,
-              transparent 75%
-            )
-          `,
-        }}
-      />
-
-      {/* Header */}
-      <div className="relative z-10 flex items-center justify-between">
-        <span
-          className={`flex h-10 w-10 items-center justify-center rounded-xl border border-current/20 bg-current/10 ${accent.text}`}
-        >
-          <Icon className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
-        </span>
-
-        <span className="font-mono text-[11px] font-semibold tracking-widest text-[#8B949E] transition-colors duration-300 group-hover:text-[#F0F6FC]">
-          {number}
-        </span>
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10 mt-8 flex flex-grow flex-col">
-        <div className="flex flex-wrap items-baseline gap-1.5 font-display font-bold tracking-tight text-[#F0F6FC]">
-          {value !== undefined && (
-            <div className="flex items-baseline gap-0.5 text-3xl sm:text-4xl">
-              <CountUp end={value} duration={1.5} />
-              <span className={accent.text}>{suffix}</span>
-            </div>
-          )}
-
-          <span
-            className={
-              value === undefined
-                ? "text-xl sm:text-2xl"
-                : "text-lg text-[#F0F6FC]/90 sm:text-xl"
-            }
-          >
-            {title}
-          </span>
-        </div>
-
-        <p className="mt-3 text-[14px] leading-relaxed text-[#8B949E] transition-colors duration-300 group-hover:text-[#F0F6FC]/80">
-          {desc}
-        </p>
-      </div>
-    </div>
-  );
-}
+export default HighlightsRow;

@@ -55,7 +55,6 @@ export function BatcomputerHUD() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [tick, setTick] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
@@ -68,23 +67,14 @@ export function BatcomputerHUD() {
     return () => clearInterval(id);
   }, []);
 
-  // Handle escape key and click outside
+  // Handle escape key
   useEffect(() => {
     if (!open) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
-    const handleClickOutside = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    };
     window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [open]);
 
   const alert = useMemo(() => ALERTS[tick % ALERTS.length], [tick]);
@@ -92,51 +82,64 @@ export function BatcomputerHUD() {
   if (!mounted) return null;
 
   return (
-    <div
-      ref={containerRef}
-      className="fixed z-[60] bottom-4 right-4 sm:bottom-6 sm:right-6 font-mono pointer-events-none"
-      aria-live="polite"
-    >
-      <AnimatePresence>
-        {!open && (
-          <motion.div 
-            key="compass-container"
-            className="absolute bottom-0 right-0 pointer-events-auto"
-            exit={{ opacity: 0, scale: 0.5, filter: "blur(8px)", transition: { duration: 0.2 } }}
-          >
-            <CompassOrb 
-              onClick={() => setOpen(true)} 
-              mission={mission} 
-              prefersReducedMotion={prefersReducedMotion} 
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+    <>
+      {/* Floating Compass Button in Bottom Right */}
+      <div className="fixed z-[50] bottom-4 right-4 sm:bottom-6 sm:right-6 font-mono pointer-events-auto">
+        <AnimatePresence>
+          {!open && (
+            <motion.div 
+              key="compass-container"
+              exit={{ opacity: 0, scale: 0.5, filter: "blur(8px)", transition: { duration: 0.2 } }}
+            >
+              <CompassOrb 
+                onClick={() => setOpen(true)} 
+                mission={mission} 
+                prefersReducedMotion={prefersReducedMotion} 
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
 
+      {/* Centered Modal Overlay */}
       <AnimatePresence>
         {open && (
-          <motion.div 
-            key="panel-container"
-            className="relative pointer-events-auto origin-bottom-right"
-            initial={{ scale: 0.8, opacity: 0, filter: "blur(12px)" }}
-            animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
-            exit={{ scale: 0.9, opacity: 0, filter: "blur(8px)", transition: { duration: 0.2, ease: "easeIn" } }}
-            transition={{ 
-              type: "spring", 
-              stiffness: 300, 
-              damping: 24,
-              mass: 0.8
-            }}
-          >
-            <ExpandedPanel 
-              onClose={() => setOpen(false)} 
-              mission={mission} 
-              alert={alert}
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 font-mono pointer-events-auto">
+            {/* Backdrop */}
+            <motion.div
+              key="modal-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="absolute inset-0 bg-slate-950/60 dark:bg-black/80 backdrop-blur-sm"
+              onClick={() => setOpen(false)}
             />
-          </motion.div>
+
+            {/* Modal Box */}
+            <motion.div 
+              key="panel-container"
+              className="relative z-10 origin-center"
+              initial={{ scale: 0.9, opacity: 0, filter: "blur(10px)" }}
+              animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
+              exit={{ scale: 0.9, opacity: 0, filter: "blur(8px)", transition: { duration: 0.2, ease: "easeIn" } }}
+              transition={{ 
+                type: "spring", 
+                stiffness: 320, 
+                damping: 26,
+                mass: 0.8
+              }}
+            >
+              <ExpandedPanel 
+                onClose={() => setOpen(false)} 
+                mission={mission} 
+                alert={alert}
+              />
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
-    </div>
+    </>
   );
 }
 
@@ -144,7 +147,7 @@ function CompassOrb({ onClick, mission, prefersReducedMotion }: { onClick: () =>
   return (
     <motion.button
       onClick={onClick}
-      className="relative flex items-center justify-center rounded-full bg-black/85 border border-primary/40 backdrop-blur-md group focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+      className="relative flex items-center justify-center rounded-full bg-card border border-border text-foreground shadow-xl backdrop-blur-md group focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:bg-black/85 dark:border-primary/40"
       title="Mission Control"
       style={{ width: 56, height: 56 }}
       initial={{ scale: 0.8, opacity: 0, filter: "blur(8px)" }}
@@ -192,12 +195,7 @@ function CompassOrb({ onClick, mission, prefersReducedMotion }: { onClick: () =>
 function ExpandedPanel({ onClose, mission, alert }: { onClose: () => void, mission: any, alert: any }) {
   return (
     <div
-      className={[
-        "rounded-2xl glass-strong shadow-[0_8px_32px_rgba(0,163,255,0.15)] overflow-hidden backdrop-blur-xl",
-        "border border-primary/20",
-        "w-[300px]",
-        "flex flex-col"
-      ].join(" ")}
+      className="rounded-2xl bg-card border border-border/80 text-foreground shadow-2xl shadow-slate-950/25 dark:shadow-black/70 overflow-hidden backdrop-blur-xl dark:bg-[#0E1116]/95 dark:border-primary/30 w-[min(92vw,350px)] flex flex-col"
     >
       {/* top scanline */}
       <div className="relative h-px w-full overflow-hidden shrink-0">
@@ -205,17 +203,19 @@ function ExpandedPanel({ onClose, mission, alert }: { onClose: () => void, missi
       </div>
 
       {/* Header bar */}
-      <div className="w-full shrink-0 flex items-center justify-between gap-2.5 px-3 py-2 bg-white/[0.02]">
-        <div className="flex items-center gap-2.5 flex-1 min-w-0">
-          <RadarBadge tone={mission.tone} />
+      <div className="w-full shrink-0 flex items-center justify-between gap-3 px-3.5 py-3 bg-muted/40 border-b border-border/50">
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          <div className="h-9 w-9 shrink-0 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:bg-primary/15 dark:border-primary/30 dark:text-primary flex items-center justify-center shadow-xs">
+            <Radar className="h-4.5 w-4.5" />
+          </div>
           <div className="min-w-0 flex-1">
-            <div className={`text-[9px] tracking-[0.2em] ${mission.tone}`}>{mission.label}</div>
-            <div className="text-[11px] text-foreground/90 truncate">{mission.sub}</div>
+            <div className="text-[10px] font-mono font-bold tracking-[0.24em] text-blue-600 dark:text-primary uppercase">{mission.label}</div>
+            <div className="text-[14px] font-display font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight mt-0.5 truncate">{mission.sub}</div>
           </div>
         </div>
         <button
           onClick={onClose}
-          className="h-7 w-7 flex items-center justify-center rounded-lg hover:bg-white/[0.08] text-muted-foreground hover:text-white transition-colors"
+          className="h-8 w-8 flex items-center justify-center rounded-xl hover:bg-muted/80 text-muted-foreground hover:text-foreground transition-colors border border-transparent hover:border-border/40"
           aria-label="Close HUD"
         >
           <X className="h-4 w-4" />
@@ -223,21 +223,21 @@ function ExpandedPanel({ onClose, mission, alert }: { onClose: () => void, missi
       </div>
 
       {/* Counters strip (always visible) */}
-      <div className="grid grid-cols-3 border-t border-white/5 shrink-0">
-        <Counter icon={<FileSearch className="h-3 w-3" />} label="EVID" value="128" tone="text-primary" />
-        <Counter icon={<FolderLock className="h-3 w-3" />} label="CASE" value="07" tone="text-secondary" />
-        <Counter icon={<Sparkles className="h-3 w-3" />} label="XP" value="4.8K" tone="text-achievement" />
+      <div className="grid grid-cols-3 border-b border-border/40 shrink-0 bg-muted/10">
+        <Counter icon={<FileSearch className="h-3 w-3" />} label="EVID" value="128" tone="text-primary font-bold" />
+        <Counter icon={<FolderLock className="h-3 w-3" />} label="CASE" value="07" tone="text-slate-900 dark:text-white font-bold" />
+        <Counter icon={<Sparkles className="h-3 w-3" />} label="XP" value="4.8K" tone="text-amber-600 dark:text-warning font-bold" />
       </div>
 
       {/* Expanded body */}
-      <div className="border-t border-white/5 p-3 space-y-3 animate-fade-up overflow-y-auto custom-scrollbar max-h-[300px]">
+      <div className="p-3.5 space-y-3.5 animate-fade-up overflow-y-auto custom-scrollbar max-h-[300px]">
         {/* Alert ticker */}
-        <div className="rounded-lg border border-danger/25 bg-danger/[0.06] p-2 shrink-0">
-          <div className="flex items-center gap-1.5 text-[9px] tracking-[0.2em] text-danger">
+        <div className="rounded-xl border border-danger/25 bg-danger/[0.06] p-2.5 shrink-0">
+          <div className="flex items-center gap-1.5 text-[9px] tracking-[0.2em] text-danger font-bold">
             <ShieldAlert className="h-3 w-3 animate-pulse-glow" /> ALERT FEED
           </div>
-          <div key={alert.code} className="mt-1 text-[11px] text-foreground/90 animate-fade-up">
-            <span className="text-danger">{alert.code}</span>
+          <div key={alert.code} className="mt-1 text-[11px] text-foreground font-medium animate-fade-up">
+            <span className="text-danger font-semibold">{alert.code}</span>
             <span className="text-muted-foreground"> · </span>
             {alert.text}
           </div>
@@ -245,10 +245,10 @@ function ExpandedPanel({ onClose, mission, alert }: { onClose: () => void, missi
 
         {/* Vitals */}
         <div className="grid grid-cols-2 gap-2 text-[10px] shrink-0">
-          <Vital label="UPLINK" value="STABLE" tone="text-success" dot />
-          <Vital label="THREAT" value="ELEVATED" tone="text-warning" dot />
-          <Vital label="LATENCY" value="42ms" tone="text-primary" />
-          <Vital label="SHIELD" value="100%" tone="text-success" />
+          <Vital label="UPLINK" value="STABLE" tone="text-success font-semibold" dot />
+          <Vital label="THREAT" value="ELEVATED" tone="text-warning font-semibold" dot />
+          <Vital label="LATENCY" value="42ms" tone="text-primary font-semibold" />
+          <Vital label="SHIELD" value="100%" tone="text-success font-semibold" />
         </div>
       </div>
 
@@ -328,12 +328,12 @@ function Counter({
   tone: string;
 }) {
   return (
-    <div className="px-2.5 py-1.5 border-r last:border-r-0 border-white/5">
-      <div className="flex items-center gap-1 text-[8px] tracking-[0.2em] text-muted-foreground">
+    <div className="px-3 py-2.5 border-r last:border-r-0 border-border/40">
+      <div className="flex items-center gap-1.5 text-[8.5px] tracking-[0.2em] font-mono text-muted-foreground">
         <span className={tone}>{icon}</span>
         {label}
       </div>
-      <div className={`text-[12px] font-semibold ${tone}`}>{value}</div>
+      <div className={`mt-1.5 text-[13px] font-mono font-bold leading-none ${tone}`}>{value}</div>
     </div>
   );
 }

@@ -102,14 +102,14 @@ export function MissionControlScreen() {
               <div className="inline-flex items-center gap-1.5 bg-danger/10 border border-danger/20 text-danger px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider font-bold mb-2">
                 <AlertTriangle className="h-3 w-3" /> Critical
               </div>
-              <h2 className="text-white font-display font-bold text-lg leading-tight">Operation<br/>Midnight Drop</h2>
+              <h2 className="text-white font-display font-bold text-lg leading-tight">Operation<br />Midnight Drop</h2>
             </div>
             <div className="text-right">
               <div className="text-[10px] text-muted-foreground font-mono uppercase tracking-widest">Case ID</div>
               <div className="text-primary font-mono text-xs">#0421</div>
             </div>
           </div>
-          
+
           <div className="space-y-2 relative z-10">
             <div className="flex justify-between text-xs font-medium">
               <span className="text-muted-foreground">Investigation Progress</span>
@@ -205,7 +205,7 @@ export function CaseDetailsScreen() {
           <div className="inline-flex items-center gap-1.5 bg-danger/10 border border-danger/20 text-danger px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider font-bold mb-2">
             <AlertTriangle className="h-3 w-3" /> Critical
           </div>
-          <h1 className="text-white font-display font-bold text-2xl leading-tight">UPI Fraud<br/>Investigation</h1>
+          <h1 className="text-white font-display font-bold text-2xl leading-tight">UPI Fraud<br />Investigation</h1>
           <div className="flex items-center gap-3 mt-3 text-xs">
             <span className="text-primary font-mono bg-primary/10 px-2 py-0.5 rounded border border-primary/20">ID #0421</span>
             <span className="text-muted-foreground flex items-center gap-1"><Clock className="h-3 w-3" /> Started 2d ago</span>
@@ -227,7 +227,7 @@ export function CaseDetailsScreen() {
               Multiple anomalous transactions reported originating from IP addresses outside the user's typical geographic location. Preliminary network logs suggest a potential man-in-the-middle attack vector.
             </p>
           </div>
-          
+
           <div className="flex items-center gap-4">
             <div className="flex-1 glass rounded-xl p-3 border border-white/10 flex flex-col items-center justify-center text-center">
               <User className="h-4 w-4 text-primary mb-1.5" />

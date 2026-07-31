@@ -1,272 +1,347 @@
 import { motion } from "framer-motion";
 
 /**
- * unDraw-style flat SVG illustrations for the ForenShield landing.
- * Palette: Signal Blue #2563EB, Cyan #22D3EE, Amber accent #F59E0B.
- * All illustrations sit on a transparent background so the parent card
- * chrome (dark navy gradient) shows through.
+ * UI/Dashboard Mockup SVG illustrations for the ForenShield landing.
+ * Designed with dedicated dark-console window frames so all interface
+ * elements, text lines, badges, and status lights pop crisply in BOTH light & dark modes.
  */
 
-const BLUE = "#2563EB";
-const BLUE_D = "#1E3A8A";
-const CYAN = "#22D3EE";
-const AMBER = "#F59E0B";
-const LIGHT = "#DBEAFE";
-const SKIN = "#F1F5F9";
-
-function Frame({ children, viewBox = "0 0 400 300" }: { children: React.ReactNode; viewBox?: string }) {
-  return (
-    <svg
-      viewBox={viewBox}
-      className="absolute inset-0 h-full w-full"
-      preserveAspectRatio="xMidYMid meet"
-      aria-hidden
-    >
-      {children}
-    </svg>
-  );
-}
-
+/** 1. Investigation Lab — Evidence Analysis & Hash Scanner */
 export function IllusHacker() {
   return (
     <svg viewBox="0 0 400 300" className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid meet" aria-hidden>
-      {/* Background glow */}
-      <circle cx="200" cy="150" r="100" className="fill-primary/5 blur-3xl" />
-      
-      {/* Particles reusing animate-drift-twinkle */}
-      <g className="fill-primary/60 motion-safe:animate-[pulse-glow_4s_ease-in-out_infinite]">
-        <circle cx="80" cy="100" r="1.5" className="animate-drift-twinkle" style={{ animationDelay: "0s" }} />
-        <circle cx="320" cy="80" r="2" className="animate-drift-twinkle" style={{ animationDelay: "1s" }} />
-        <circle cx="120" cy="60" r="1.5" className="animate-drift-twinkle" style={{ animationDelay: "2s" }} />
-        <circle cx="280" cy="200" r="2.5" className="animate-drift-twinkle" style={{ animationDelay: "1.5s" }} />
-        <rect x="70" y="160" width="8" height="2" rx="1" className="animate-drift-twinkle" style={{ animationDelay: "0.5s" }} />
-        <rect x="310" y="140" width="12" height="2" rx="1" className="animate-drift-twinkle" style={{ animationDelay: "2.5s" }} />
-      </g>
-
-      {/* Desk */}
-      <rect x="60" y="240" width="280" height="4" rx="2" className="fill-primary/20" />
-      
-      {/* Terminal Screen Glow */}
-      <rect x="140" y="160" width="120" height="70" rx="6" className="fill-primary/10 blur-xl" />
-      
-      {/* Terminal Display */}
-      <rect x="140" y="160" width="120" height="70" rx="6" className="fill-black stroke-primary/30" strokeWidth="2" />
-      <rect x="150" y="170" width="50" height="4" rx="2" className="fill-primary/60" />
-      <rect x="150" y="180" width="80" height="4" rx="2" className="fill-primary/40" />
-      <rect x="150" y="190" width="40" height="4" rx="2" className="fill-warning/60" />
-      
-      {/* Breathing glow behind silhouette */}
-      <path d="M120 240 C120 100, 280 100, 280 240 Z" className="fill-primary/10 blur-2xl motion-safe:animate-[pulse-glow_4s_ease-in-out_infinite]" />
-      
-      {/* Hooded Figure Silhouette (abstract geometric) */}
-      <path d="M120 240 C120 100, 280 100, 280 240 Z" className="fill-background stroke-primary/20" strokeWidth="2" />
-      {/* Subtle rim light */}
-      <path d="M130 240 C130 120, 270 120, 270 240" className="fill-none stroke-primary/50" strokeWidth="4" filter="blur(4px)" opacity="0.6" />
-      
-      {/* Abstract Glowing Eyes/Nodes */}
-      <ellipse cx="190" cy="180" rx="3" ry="1.5" className="fill-primary animate-pulse-glow" />
-      <ellipse cx="210" cy="180" rx="3" ry="1.5" className="fill-primary animate-pulse-glow" style={{ animationDelay: '0.5s' }} />
-    </svg>
-  );
-}
-
-export function IllusNetwork() {
-  const nodes = [
-    { x: 80, y: 150, r: 8, color: "var(--color-primary)", colorClass: "fill-primary", strokeClass: "stroke-primary" },
-    { x: 160, y: 80, r: 12, color: "var(--color-warning)", colorClass: "fill-warning", strokeClass: "stroke-warning" },
-    { x: 160, y: 220, r: 10, color: "var(--color-primary)", colorClass: "fill-primary", strokeClass: "stroke-primary" },
-    { x: 250, y: 150, r: 14, color: "var(--color-danger)", colorClass: "fill-danger", strokeClass: "stroke-danger" },
-    { x: 330, y: 100, r: 8, color: "var(--color-primary)", colorClass: "fill-primary", strokeClass: "stroke-primary" },
-  ];
-  
-  const edges = [
-    [0, 1], [0, 2], [1, 3], [2, 3], [3, 4]
-  ];
-
-  return (
-    <svg viewBox="0 0 400 300" className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid meet" aria-hidden>
-      {/* Glow */}
-      <circle cx="200" cy="150" r="100" className="fill-primary/5 blur-3xl" />
-      
-      {/* Edges */}
-      {edges.map(([a, b], i) => (
-        <line 
-          key={i} 
-          x1={nodes[a].x} y1={nodes[a].y} 
-          x2={nodes[b].x} y2={nodes[b].y} 
-          className="stroke-primary/40 animate-data-flow" 
-          strokeWidth="1.5" 
-          strokeDasharray="4 4" 
-        />
-      ))}
-
-      {/* Nodes */}
-      {nodes.map((n, i) => (
-        <g key={i}>
-          {/* Outer pulse */}
-          <circle cx={n.x} cy={n.y} r={n.r + 6} className={`${n.colorClass} animate-pulse-glow opacity-15`} style={{ animationDelay: `${i * 0.2}s` }} />
-          {/* Inner ring */}
-          <circle cx={n.x} cy={n.y} r={n.r} className={`fill-background ${n.strokeClass}`} strokeWidth="2" />
-          {/* Core */}
-          <circle cx={n.x} cy={n.y} r={n.r * 0.4} className={n.colorClass} />
+      <g transform="translate(200, 150)">
+        {/* Background glow */}
+        <circle cx="0" cy="0" r="110" className="fill-primary/10 blur-3xl" />
+        
+        {/* Main UI Console Window */}
+        <rect x="-120" y="-85" width="240" height="170" rx="10" fill="#0E121B" stroke="#2563EB" strokeWidth="1.5" className="shadow-2xl" />
+        
+        {/* Window Title Bar */}
+        <rect x="-120" y="-85" width="240" height="28" rx="10" fill="#161B26" />
+        <rect x="-120" y="-65" width="240" height="8" fill="#161B26" /> {/* Flatten bottom corners of title bar */}
+        <line x1="-120" y1="-57" x2="120" y2="-57" stroke="#2563EB" strokeOpacity="0.3" strokeWidth="1" />
+        
+        {/* Mac-style Window Controls */}
+        <circle cx="-104" cy="-71" r="3.5" fill="#EF4444" />
+        <circle cx="-94" cy="-71" r="3.5" fill="#F59E0B" />
+        <circle cx="-84" cy="-71" r="3.5" fill="#10B981" />
+        
+        <text x="-65" y="-68" fill="#94A3B8" fontSize="9" fontFamily="monospace" fontWeight="bold">EVIDENCE_INSPECTOR_V2.0</text>
+        
+        {/* File scanner block on left */}
+        <g transform="translate(-100, -42)">
+          <rect x="0" y="0" width="34" height="42" rx="4" fill="#1E2638" stroke="#3B82F6" strokeWidth="1" />
+          <text x="17" y="25" fill="#60A5FA" fontSize="16" textAnchor="middle">📄</text>
+          
+          {/* Animated Laser Scan Line */}
+          <motion.line 
+            x1="2" y1="4" x2="32" y2="4" 
+            stroke="#EF4444" strokeWidth="2"
+            animate={{ y: [0, 34, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          />
         </g>
-      ))}
-    </svg>
-  );
-}
-
-export function IllusDashboard() {
-  return (
-    <svg viewBox="0 0 400 300" className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid meet" aria-hidden>
-      {/* Main Panel */}
-      <rect x="60" y="40" width="280" height="220" rx="12" className="fill-background stroke-white/10 shadow-2xl" strokeWidth="1" />
-      <rect x="60" y="40" width="280" height="30" rx="12" className="fill-white/5" />
-      
-      {/* Window Controls */}
-      <circle cx="80" cy="55" r="4" className="fill-danger/80" />
-      <circle cx="95" cy="55" r="4" className="fill-warning/80" />
-      <circle cx="110" cy="55" r="4" className="fill-success/80" />
-      
-      {/* List Rows with Staggered Shimmer */}
-      <g transform="translate(80, 85)">
-        {[0, 1, 2].map((i) => (
-          <g key={i} transform={`translate(0, ${i * 24})`} className="motion-safe:animate-[pulse-glow_4s_ease-in-out_infinite]" style={{ animationDelay: `${i * 0.5}s` }}>
-            <rect x="0" y="0" width="240" height="16" rx="4" className="fill-white/5" />
-            <rect x="8" y="6" width="40" height="4" rx="2" className="fill-white/20" />
-            <rect x="60" y="6" width="100" height="4" rx="2" className="fill-white/10" />
-            <rect x="210" y="6" width="20" height="4" rx="2" className={i === 1 ? "fill-warning/60" : "fill-primary/60"} />
+        
+        {/* Metadata lines */}
+        <g transform="translate(-56, -40)">
+          <rect x="0" y="4" width="70" height="6" rx="3" fill="#60A5FA" />
+          <rect x="0" y="16" width="110" height="5" rx="2.5" fill="#475569" />
+          <rect x="0" y="27" width="90" height="5" rx="2.5" fill="#334155" />
+        </g>
+        
+        {/* "VERIFIED" status badge top right */}
+        <g transform="translate(62, -42)">
+          <rect x="0" y="0" width="48" height="16" rx="4" fill="#10B981" fillOpacity="0.2" stroke="#10B981" strokeWidth="1" />
+          <text x="24" y="11" fill="#34D399" fontSize="7.5" fontFamily="monospace" fontWeight="bold" textAnchor="middle">VERIFIED</text>
+        </g>
+        
+        {/* Evidence Hash Rows */}
+        {[
+          { label: "report.pdf", hash: "a7b39...8f", status: "VERIFIED", color: "#34D399" },
+          { label: "capture.pcap", hash: "c2d14...1e", status: "ANALYZED", color: "#60A5FA" },
+          { label: "mem_dump.raw", hash: "e9f40...7a", status: "SCANNING", color: "#F59E0B" }
+        ].map((item, i) => (
+          <g key={i} transform={`translate(-106, ${10 + i * 24})`}>
+            <rect x="0" y="0" width="212" height="20" rx="4" fill="#161C2A" stroke="#2563EB" strokeOpacity="0.2" strokeWidth="1" />
+            <text x="8" y="13" fill="#F8FAFC" fontSize="8.5" fontFamily="monospace" fontWeight="bold">{item.label}</text>
+            <text x="85" y="13" fill="#64748B" fontSize="8" fontFamily="monospace">{item.hash}</text>
+            <text x="204" y="13" fill={item.color} fontSize="7.5" fontFamily="monospace" fontWeight="bold" textAnchor="end">{item.status}</text>
           </g>
         ))}
       </g>
-      
-      {/* Mini Bar Chart Area */}
-      <rect x="80" y="170" width="240" height="70" rx="6" className="fill-primary/5 stroke-primary/10" strokeWidth="1" />
-      
-      {/* Bars (reusing ReportScreen styling logic) with whileInView grow animation */}
-      <g transform="translate(100, 185)">
-        {[40, 60, 30, 80, 50, 90, 45, 70].map((h, i) => {
-          const isHighlight = i === 5 || i === 3;
-          return (
-            <g key={i} transform={`translate(${i * 26}, 0)`}>
-              {/* Background bar */}
-              <rect x="0" y="0" width="14" height="40" rx="2" className="fill-primary/10" />
-              {/* Foreground bar */}
-              <motion.rect 
-                x="0" 
-                y={40 - h * 0.4} 
-                width="14" 
-                height={h * 0.4} 
-                rx="2" 
-                className={`${isHighlight ? "fill-warning motion-safe:animate-[pulse-glow_3s_ease-in-out_infinite]" : "fill-primary"}`} 
-                style={{ transformOrigin: `0 40px`, animationDelay: isHighlight ? `${i * 0.3}s` : '0s' }}
-                initial={{ scaleY: 0 }}
-                whileInView={{ scaleY: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.08 + 0.2, ease: [0.16, 1, 0.3, 1] }}
-              />
-            </g>
-          );
-        })}
-      </g>
     </svg>
   );
 }
 
-export function IllusPlay() {
+/** 2. Cyber Academy — Curriculum Dashboard & Learning Progress */
+export function IllusNetwork() {
   return (
     <svg viewBox="0 0 400 300" className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid meet" aria-hidden>
-      <g className="origin-center motion-safe:animate-[spin_25s_linear_infinite]" style={{ transformOrigin: '200px 150px' }}>
-        {/* Radar rings */}
-        <circle cx="200" cy="150" r="120" className="fill-none stroke-primary/10" strokeWidth="1" strokeDasharray="4 4" />
-        <circle cx="200" cy="150" r="80" className="fill-none stroke-primary/20" strokeWidth="1" />
-        <circle cx="200" cy="150" r="40" className="fill-primary/5 stroke-primary/30" strokeWidth="1" />
+      <g transform="translate(200, 150)">
+        {/* Background glow */}
+        <circle cx="0" cy="0" r="110" className="fill-primary/10 blur-3xl" />
         
-        {/* Accent dots/orbiters rotating with the rings */}
-        <circle cx="120" cy="150" r="4" className="fill-warning motion-safe:animate-[pulse-glow_3s_ease-in-out_infinite]" style={{ animationDelay: '0s' }} />
-        <circle cx="256" cy="94" r="3" className="fill-danger motion-safe:animate-[pulse-glow_3s_ease-in-out_infinite]" style={{ animationDelay: '1s' }} />
-        <circle cx="240" cy="219" r="2" className="fill-primary motion-safe:animate-[pulse-glow_3s_ease-in-out_infinite]" style={{ animationDelay: '2s' }} />
-      </g>
-      
-      {/* Play Button */}
-      <g className="group cursor-pointer">
-        {/* Expanding pulse ring */}
-        <circle cx="200" cy="150" r="28" className="fill-primary/10 animate-[ping_3s_ease-out_infinite]" />
-        {/* Glow */}
-        <circle cx="200" cy="150" r="28" className="fill-primary/20 animate-pulse-glow" />
-        {/* Button body */}
-        <circle cx="200" cy="150" r="24" className="fill-background stroke-primary" strokeWidth="2" />
-        {/* Play icon triangle */}
-        <path d="M194 140 L212 150 L194 160 Z" className="fill-primary" />
-      </g>
-    </svg>
-  );
-}
-
-export function IllusReports() {
-  return (
-    <svg viewBox="0 0 400 300" className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid meet" aria-hidden>
-      <g transform="translate(200, 160)">
-        {/* Back page */}
-        <g transform="translate(10, -20) rotate(8)">
-          <rect x="-80" y="-100" width="160" height="200" rx="8" className="fill-background stroke-white/10 shadow-2xl" strokeWidth="1" />
-          <rect x="-60" y="-70" width="120" height="4" rx="2" className="fill-white/10" />
-          <rect x="-60" y="-55" width="90" height="4" rx="2" className="fill-white/10" />
-        </g>
+        {/* Main UI Console Window */}
+        <rect x="-120" y="-85" width="240" height="170" rx="10" fill="#0E121B" stroke="#2563EB" strokeWidth="1.5" className="shadow-2xl" />
         
-        {/* Middle page */}
-        <g transform="translate(-10, -10) rotate(-4)">
-          <rect x="-80" y="-100" width="160" height="200" rx="8" className="fill-background stroke-white/20 shadow-2xl" strokeWidth="1" />
-          <rect x="-60" y="-70" width="120" height="4" rx="2" className="fill-white/10" />
-          <rect x="-60" y="-55" width="100" height="4" rx="2" className="fill-white/10" />
-        </g>
+        {/* Header Bar */}
+        <rect x="-120" y="-85" width="240" height="28" rx="10" fill="#161B26" />
+        <rect x="-120" y="-65" width="240" height="8" fill="#161B26" />
+        <line x1="-120" y1="-57" x2="120" y2="-57" stroke="#2563EB" strokeOpacity="0.3" strokeWidth="1" />
         
-        {/* Front page */}
-        <g transform="translate(0, 0)">
-          <rect x="-80" y="-100" width="160" height="200" rx="8" className="fill-background stroke-primary/30 shadow-2xl" strokeWidth="1" />
-          
-          {/* Header */}
-          <rect x="-80" y="-100" width="160" height="40" rx="8" className="fill-primary/10" />
+        <text x="-106" y="-68" fill="#94A3B8" fontSize="9" fontFamily="monospace" fontWeight="bold">ACADEMY // CYBER DEFENSE 101</text>
+        <text x="106" y="-68" fill="#60A5FA" fontSize="8.5" fontFamily="monospace" fontWeight="bold" textAnchor="end">85% COMPLETE</text>
+        
+        {/* Overall Progress Bar */}
+        <g transform="translate(-106, -45)">
+          <rect x="0" y="0" width="212" height="8" rx="4" fill="#1E293B" />
           <motion.rect 
-            x="-60" 
-            y="-85" 
-            height="6" 
-            rx="3" 
-            className="fill-primary" 
+            x="0" y="0" height="8" rx="4" fill="#3B82F6"
             initial={{ width: 0 }}
-            whileInView={{ width: 60 }}
+            whileInView={{ width: 180 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
           />
+        </g>
+        
+        {/* Module List Items */}
+        {[
+          { title: "01. Networking & PCAP Analysis", status: "COMPLETED", color: "#10B981", active: false },
+          { title: "02. Memory Forensics & RAM", status: "IN PROGRESS", color: "#3B82F6", active: true },
+          { title: "03. Reverse Engineering Malware", status: "LOCKED", color: "#64748B", active: false }
+        ].map((m, i) => (
+          <g key={i} transform={`translate(-106, ${-25 + i * 32})`}>
+            <rect 
+              x="0" y="0" width="212" height="26" rx="5" 
+              fill={m.active ? "#1E293B" : "#131824"} 
+              stroke={m.active ? "#3B82F6" : "#2563EB"} 
+              strokeOpacity={m.active ? "0.8" : "0.2"}
+              strokeWidth="1.2" 
+            />
+            
+            {/* Status Dot / Checkmark */}
+            <circle cx="14" cy="13" r="5" fill={m.color} fillOpacity={m.active ? "1" : "0.8"} />
+            {m.color === "#10B981" && (
+              <path d="M11.5 13 L13.5 15 L16.5 11" fill="none" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" />
+            )}
+            
+            <text x="28" y="16" fill="#F8FAFC" fontSize="8.5" fontFamily="monospace" fontWeight={m.active ? "bold" : "normal"}>
+              {m.title}
+            </text>
+            
+            <text x="204" y="16" fill={m.color} fontSize="7.5" fontFamily="monospace" fontWeight="bold" textAnchor="end">
+              {m.status}
+            </text>
+          </g>
+        ))}
+      </g>
+    </svg>
+  );
+}
+
+/** 3. Simulation Lab — Live Attack Terminal & Console */
+export function IllusPlay() {
+  return (
+    <svg viewBox="0 0 400 300" className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid meet" aria-hidden>
+      <g transform="translate(200, 150)">
+        {/* Background glow */}
+        <circle cx="0" cy="0" r="110" className="fill-danger/10 blur-3xl" />
+        
+        {/* Main UI Console Window */}
+        <rect x="-120" y="-85" width="240" height="170" rx="10" fill="#0A0D14" stroke="#EF4444" strokeWidth="1.5" className="shadow-2xl" />
+        
+        {/* Window Title Bar */}
+        <rect x="-120" y="-85" width="240" height="28" rx="10" fill="#141923" />
+        <rect x="-120" y="-65" width="240" height="8" fill="#141923" />
+        <line x1="-120" y1="-57" x2="120" y2="-57" stroke="#EF4444" strokeOpacity="0.3" strokeWidth="1" />
+        
+        {/* Mac-style Window Controls */}
+        <circle cx="-104" cy="-71" r="3.5" fill="#EF4444" />
+        <circle cx="-94" cy="-71" r="3.5" fill="#F59E0B" />
+        <circle cx="-84" cy="-71" r="3.5" fill="#10B981" />
+        
+        <text x="-65" y="-68" fill="#94A3B8" fontSize="8" fontFamily="monospace" fontWeight="bold">LIVE_ATTACK_STREAM</text>
+        
+        {/* [HIGH RISK] Flashing Warning Badge top right */}
+        <g transform="translate(45, -78)">
+          <rect x="0" y="0" width="65" height="14" rx="3" fill="#EF4444" fillOpacity="0.25" stroke="#EF4444" strokeWidth="1" />
+          <text x="32.5" y="10" fill="#F87171" fontSize="7" fontFamily="monospace" fontWeight="bold" textAnchor="middle">
+            ⚠ HIGH RISK
+          </text>
+        </g>
+        
+        {/* Command Line Prompt lines */}
+        <g transform="translate(-106, -42)">
+          <text x="0" y="10" fill="#38BDF8" fontSize="8.5" fontFamily="monospace" fontWeight="bold">root@forenshield:~#</text>
+          <text x="95" y="10" fill="#F8FAFC" fontSize="8.5" fontFamily="monospace">analyze --live --interface=eth0</text>
           
-          {/* Shield / Logo mark representing Rank - updated to primary blue */}
-          <circle cx="50" cy="-80" r="10" className="fill-primary/20 stroke-primary/50 motion-safe:animate-[pulse-glow_3s_ease-in-out_infinite]" strokeWidth="1" />
-          <path d="M46 -82 L54 -82 L50 -76 Z" className="fill-primary" />
+          <text x="0" y="24" fill="#EF4444" fontSize="8" fontFamily="monospace" fontWeight="bold">[ALERT]</text>
+          <text x="40" y="24" fill="#FCA5A5" fontSize="8" fontFamily="monospace">DDoS SYN Flood detected from 192.168.1.104</text>
           
-          {/* Text lines */}
-          <rect x="-60" y="-40" width="120" height="4" rx="2" className="fill-white/20" />
-          <rect x="-60" y="-25" width="90" height="4" rx="2" className="fill-white/20" />
-          <rect x="-60" y="-10" width="100" height="4" rx="2" className="fill-white/20" />
+          <text x="0" y="38" fill="#F59E0B" fontSize="8" fontFamily="monospace" fontWeight="bold">[WARN]</text>
+          <text x="40" y="38" fill="#FDE047" fontSize="8" fontFamily="monospace">Unauthorized SSH brute-force attempt logged</text>
           
-          {/* Chart Squiggle animated as progress */}
-          <rect x="-60" y="15" width="120" height="60" rx="6" className="fill-primary/5 stroke-primary/10" strokeWidth="1" />
+          <text x="0" y="52" fill="#10B981" fontSize="8" fontFamily="monospace" fontWeight="bold">[ACTION]</text>
+          <text x="45" y="52" fill="#6EE7B7" fontSize="8" fontFamily="monospace">Isolating target host & capturing dump...</text>
+        </g>
+        
+        {/* Pulsing Signal Waveform Box at bottom */}
+        <g transform="translate(-106, 22)">
+          <rect x="0" y="0" width="212" height="50" rx="5" fill="#111827" stroke="#EF4444" strokeOpacity="0.3" strokeWidth="1" />
+          
+          {/* Attack Signal Waveform */}
           <motion.path 
-            d="M-50 60 L-30 40 L-10 50 L10 25 L30 35 L50 25" 
-            className="fill-none stroke-primary" 
-            strokeWidth="2" 
+            d="M 10 25 L 40 25 L 50 10 L 60 40 L 75 15 L 90 35 L 105 25 L 130 25 L 140 5 L 150 45 L 165 25 L 202 25" 
+            fill="none" 
+            stroke="#EF4444" 
+            strokeWidth="1.8"
             initial={{ pathLength: 0 }}
             whileInView={{ pathLength: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
+            transition={{ duration: 1.5, delay: 0.3, ease: "easeOut" }}
           />
-          <motion.circle 
-            cx="50" 
-            cy="25" 
-            r="3" 
-            className="fill-primary animate-pulse-glow" 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+        </g>
+      </g>
+    </svg>
+  );
+}
+
+/** 4. Timeline View — Attack Reconstruction Dashboard */
+export function IllusDashboard() {
+  return (
+    <svg viewBox="0 0 400 300" className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid meet" aria-hidden>
+      <g transform="translate(200, 150)">
+        {/* Background glow */}
+        <circle cx="0" cy="0" r="110" className="fill-primary/10 blur-3xl" />
+        
+        {/* Main UI Console Window */}
+        <rect x="-120" y="-85" width="240" height="170" rx="10" fill="#0E121B" stroke="#2563EB" strokeWidth="1.5" className="shadow-2xl" />
+        
+        {/* Window Title Bar */}
+        <rect x="-120" y="-85" width="240" height="28" rx="10" fill="#161B26" />
+        <rect x="-120" y="-65" width="240" height="8" fill="#161B26" />
+        <line x1="-120" y1="-57" x2="120" y2="-57" stroke="#2563EB" strokeOpacity="0.3" strokeWidth="1" />
+        
+        {/* Mac-style Window Controls */}
+        <circle cx="-104" cy="-71" r="3.5" fill="#EF4444" />
+        <circle cx="-94" cy="-71" r="3.5" fill="#F59E0B" />
+        <circle cx="-84" cy="-71" r="3.5" fill="#10B981" />
+        
+        <text x="-65" y="-68" fill="#94A3B8" fontSize="9" fontFamily="monospace" fontWeight="bold">TIMELINE // RECONSTRUCTION</text>
+        
+        {/* Attack Events List */}
+        <g transform="translate(-106, -42)">
+          {[
+            { time: "14:02:01", event: "Initial Phishing Vector", risk: "CRITICAL", color: "#EF4444" },
+            { time: "14:02:45", event: "LSASS Process Injected", risk: "HIGH", color: "#F59E0B" },
+            { time: "14:03:12", event: "C2 Uplink Established", risk: "HIGH", color: "#F59E0B" }
+          ].map((row, i) => (
+            <g key={i} transform={`translate(0, ${i * 22})`}>
+              <rect x="0" y="0" width="212" height="18" rx="4" fill="#161C2A" stroke="#2563EB" strokeOpacity="0.2" strokeWidth="1" />
+              <text x="6" y="12" fill="#60A5FA" fontSize="8" fontFamily="monospace" fontWeight="bold">{row.time}</text>
+              <text x="55" y="12" fill="#F8FAFC" fontSize="8" fontFamily="monospace">{row.event}</text>
+              <text x="206" y="12" fill={row.color} fontSize="7.5" fontFamily="monospace" fontWeight="bold" textAnchor="end">{row.risk}</text>
+            </g>
+          ))}
+        </g>
+        
+        {/* Telemetry Bar Chart Box */}
+        <g transform="translate(-106, 28)">
+          <rect x="0" y="0" width="212" height="44" rx="5" fill="#131824" stroke="#2563EB" strokeOpacity="0.3" strokeWidth="1" />
+          
+          <g transform="translate(16, 34)">
+            {[30, 50, 25, 75, 40, 90, 60, 80].map((h, i) => {
+              const isHighlight = i === 5 || i === 3;
+              return (
+                <g key={i} transform={`translate(${i * 24}, 0)`}>
+                  <rect x="0" y="-26" width="12" height="26" rx="2" fill="#1E293B" />
+                  <motion.rect 
+                    x="0" y={-h * 0.28} width="12" height={h * 0.28} rx="2" 
+                    fill={isHighlight ? "#F59E0B" : "#3B82F6"}
+                    initial={{ scaleY: 0 }}
+                    whileInView={{ scaleY: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: i * 0.08 }}
+                  />
+                </g>
+              );
+            })}
+          </g>
+        </g>
+      </g>
+    </svg>
+  );
+}
+
+/** 5. Mission Control — Track XP, Rank & Achievements */
+export function IllusReports() {
+  return (
+    <svg viewBox="0 0 400 300" className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid meet" aria-hidden>
+      <g transform="translate(200, 150)">
+        {/* Background glow */}
+        <circle cx="0" cy="0" r="110" className="fill-primary/10 blur-3xl" />
+        
+        {/* Main UI Console Window */}
+        <rect x="-120" y="-85" width="240" height="170" rx="10" fill="#0E121B" stroke="#2563EB" strokeWidth="1.5" className="shadow-2xl" />
+        
+        {/* Window Title Bar */}
+        <rect x="-120" y="-85" width="240" height="28" rx="10" fill="#161B26" />
+        <rect x="-120" y="-65" width="240" height="8" fill="#161B26" />
+        <line x1="-120" y1="-57" x2="120" y2="-57" stroke="#2563EB" strokeOpacity="0.3" strokeWidth="1" />
+        
+        {/* Mac-style Window Controls */}
+        <circle cx="-104" cy="-71" r="3.5" fill="#EF4444" />
+        <circle cx="-94" cy="-71" r="3.5" fill="#F59E0B" />
+        <circle cx="-84" cy="-71" r="3.5" fill="#10B981" />
+        
+        <text x="-65" y="-68" fill="#94A3B8" fontSize="9" fontFamily="monospace" fontWeight="bold">MISSION_CONTROL // PROFILE</text>
+        
+        {/* Rank & XP Card Top Box */}
+        <g transform="translate(-106, -44)">
+          <rect x="0" y="0" width="212" height="42" rx="6" fill="#161C2A" stroke="#3B82F6" strokeOpacity="0.4" strokeWidth="1" />
+          
+          <text x="10" y="15" fill="#94A3B8" fontSize="7.5" fontFamily="monospace">AGENT RANK</text>
+          <text x="10" y="30" fill="#60A5FA" fontSize="10" fontFamily="monospace" fontWeight="bold">LVL 12 · INVESTIGATOR</text>
+          
+          <text x="202" y="15" fill="#94A3B8" fontSize="7.5" fontFamily="monospace" textAnchor="end">TOTAL XP</text>
+          <text x="202" y="30" fill="#F59E0B" fontSize="10" fontFamily="monospace" fontWeight="bold" textAnchor="end">2,450 XP</text>
+        </g>
+        
+        {/* Level XP Progress Bar */}
+        <g transform="translate(-106, 6)">
+          <rect x="0" y="0" width="212" height="8" rx="4" fill="#1E293B" />
+          <motion.rect 
+            x="0" y="0" height="8" rx="4" fill="#F59E0B"
+            initial={{ width: 0 }}
+            whileInView={{ width: 170 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 2 }}
+            transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+          />
+        </g>
+        
+        {/* Performance Trend Chart Box */}
+        <g transform="translate(-106, 22)">
+          <rect x="0" y="0" width="212" height="50" rx="6" fill="#131824" stroke="#2563EB" strokeOpacity="0.3" strokeWidth="1" />
+          
+          {/* Trend Line Path */}
+          <motion.path 
+            d="M 12 38 L 45 28 L 80 34 L 115 15 L 150 22 L 196 8" 
+            fill="none" 
+            stroke="#60A5FA" 
+            strokeWidth="2"
+            initial={{ pathLength: 0 }}
+            whileInView={{ pathLength: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.5, delay: 0.4, ease: "easeOut" }}
+          />
+          
+          <motion.circle 
+            cx="196" cy="8" r="3.5" fill="#F59E0B"
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 1.8 }}
           />
         </g>
       </g>

@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { GraduationCap, BookOpen, Zap, ShieldCheck, Wifi, Shield, AlertTriangle, ArrowRight } from "lucide-react";
 import { CurriculumModal } from "./CurriculumModal";
+import { CountUp } from "@/components/animations/CountUp";
 
 export function AcademyCard() {
   const [modalOpen, setModalOpen] = useState(false);
-  
+
   const courses = [
     { icon: Wifi, name: "Networking Basics", progress: 75, xp: 1240, tone: "primary" },
     { icon: Shield, name: "Web Security", progress: 60, xp: 980, tone: "success" },
@@ -13,44 +14,48 @@ export function AcademyCard() {
 
   return (
     <>
-      <div className="relative h-full rounded-2xl overflow-hidden border border-[#30363D] bg-[#161B22] p-6 sm:p-8 flex flex-col shadow-none">
+      <div className="relative h-full rounded-2xl overflow-hidden border border-border bg-card p-6 sm:p-8 flex flex-col shadow-sm dark:border-[#30363D] dark:bg-[#161B22]">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <GraduationCap className="h-5 w-5 text-[#2F81F7]" />
-            <span className="text-[#F0F6FC] font-display font-bold text-lg">Cyber Academy</span>
+            <span className="text-foreground font-display font-bold text-lg">Cyber Academy</span>
           </div>
-          <span className="inline-flex items-center gap-1 rounded-full bg-[#1C2128] border border-[#30363D] px-2.5 py-0.5 text-[10px] font-mono text-[#D29922]">
-            <BookOpen className="h-2.5 w-2.5" /> 8 MODULES
+          <span className="inline-flex items-center gap-1 rounded-full bg-muted border border-border px-2.5 py-0.5 text-[10px] font-mono text-warning dark:bg-[#1C2128] dark:border-[#30363D] dark:text-[#D29922]">
+            <BookOpen className="h-2.5 w-2.5" /> <CountUp from={0} to={8} duration={2} delay={0.2} suffix=" MODULES" />
           </span>
         </div>
 
         {/* XP + certificate row */}
         <div className="mt-4 grid grid-cols-2 gap-3">
-          <div className="rounded-lg border border-[#30363D] bg-[#0D1117] p-3">
-            <div className="flex items-center gap-1.5 text-[10px] font-mono text-[#8B949E]">
-              <Zap className="h-3 w-3 text-[#2F81F7]" /> AVG XP EARNED
+          <div className="rounded-lg border border-border bg-muted/40 p-3 dark:border-[#30363D] dark:bg-[#0D1117]">
+            <div className="flex items-center gap-1.5 text-[10px] font-mono text-muted-foreground">
+              <Zap className="h-3 w-3 text-primary" /> AVG XP EARNED
             </div>
-            <div className="mt-1 font-display font-bold text-xl text-[#F0F6FC] leading-none">2,840</div>
-            <div className="text-[10px] font-mono text-[#8B949E] mt-1">per learner</div>
+            <div className="mt-1 font-display font-bold text-xl text-foreground leading-none">
+              <CountUp from={0} to={2840} duration={2} delay={0.2} separator="," />
+            </div>
+            <div className="text-[10px] font-mono text-muted-foreground mt-1">per learner</div>
           </div>
-          <div className="rounded-lg border border-[#30363D] bg-[#0D1117] p-3">
-            <div className="flex items-center gap-1.5 text-[10px] font-mono text-[#8B949E]">
-              <ShieldCheck className="h-3 w-3 text-[#2EA043]" /> CERTIFICATES
+          <div className="rounded-lg border border-border bg-muted/40 p-3 dark:border-[#30363D] dark:bg-[#0D1117]">
+            <div className="flex items-center gap-1.5 text-[10px] font-mono text-muted-foreground">
+              <ShieldCheck className="h-3 w-3 text-success" /> CERTIFICATES
             </div>
-            <div className="mt-1 font-display font-bold text-xl text-[#F0F6FC] leading-none">8 Available</div>
-            <div className="text-[10px] font-mono text-[#8B949E] mt-1">Industry-recognized</div>
+            <div className="mt-1 font-display font-bold text-xl text-foreground leading-none">
+              <CountUp from={0} to={8} duration={2} delay={0.2} suffix=" Available" />
+            </div>
+            <div className="text-[10px] font-mono text-muted-foreground mt-1">Industry-recognized</div>
           </div>
         </div>
 
         <div className="mt-4 space-y-2.5 flex-1">
           {courses.map((c, i) => {
             const Icon = c.icon;
-            const iconBg = c.tone === "success" ? "bg-[#2EA043]/15 text-[#2EA043] border-[#2EA043]/30" : c.tone === "warning" ? "bg-[#D29922]/15 text-[#D29922] border-[#D29922]/30" : "bg-[#2F81F7]/15 text-[#2F81F7] border-[#2F81F7]/30";
-            const barBg = c.tone === "success" ? "bg-[#2EA043]" : c.tone === "warning" ? "bg-[#D29922]" : "bg-[#2F81F7]";
+            const iconBg = c.tone === "success" ? "bg-success/10 text-success border-success/30" : c.tone === "warning" ? "bg-warning/10 text-warning border-warning/30" : "bg-primary/10 text-primary border-primary/30";
+            const barBg = c.tone === "success" ? "bg-success" : c.tone === "warning" ? "bg-warning" : "bg-primary";
             return (
               <div
                 key={i}
-                className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 transition-colors cursor-default"
+                className="rounded-xl border border-border bg-muted/40 p-3 transition-colors cursor-default dark:border-[#30363D] dark:bg-[#0D1117]"
               >
                 <div className="flex items-center gap-3">
                   <span className={`h-8 w-8 rounded-lg border flex items-center justify-center ${iconBg}`}>
@@ -58,16 +63,16 @@ export function AcademyCard() {
                   </span>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between">
-                      <div className="text-[13px] text-[#F0F6FC] font-semibold truncate">{c.name}</div>
-                      <span className="text-[10px] font-mono text-[#D29922]">+{c.xp} XP</span>
+                      <div className="text-[13px] text-foreground font-semibold truncate">{c.name}</div>
+                      <span className="text-[10px] font-mono text-warning font-semibold">+{c.xp} XP</span>
                     </div>
-                    <div className="mt-0.5 flex items-center justify-between text-[10px] text-[#8B949E] font-mono">
+                    <div className="mt-0.5 flex items-center justify-between text-[10px] text-muted-foreground font-mono">
                       <span>8 Modules</span>
-                      <span className="text-[#F0F6FC]">{c.progress}%</span>
+                      <span className="text-foreground font-medium">{c.progress}%</span>
                     </div>
                   </div>
                 </div>
-                <div className="mt-2 h-1.5 rounded-full bg-[#161B22] overflow-hidden">
+                <div className="mt-2 h-1.5 rounded-full bg-muted overflow-hidden dark:bg-[#161B22]">
                   <div
                     className={`h-full rounded-full ${barBg}`}
                     style={{ width: `${c.progress}%` }}
@@ -79,7 +84,7 @@ export function AcademyCard() {
         </div>
 
         {/* Skill tree mini */}
-        <div className="mt-4 rounded-lg border border-[#30363D] bg-[#0D1117] p-3">
+        <div className="mt-4 rounded-lg border border-border bg-muted/40 p-3 dark:border-[#30363D] dark:bg-[#0D1117]">
           <div className="flex items-center justify-between text-[10px] font-mono text-[#8B949E] uppercase tracking-wider">
             <span>Skill Tree</span>
             <span className="text-[#2F81F7] font-semibold">7 unlocked</span>

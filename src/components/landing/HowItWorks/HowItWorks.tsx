@@ -1,137 +1,94 @@
 import { useState } from "react";
 import { BookOpenCheck, Crosshair, ScanSearch, FileCheck2, Award } from "lucide-react";
 import { Reveal } from "@/components/landing/Reveal";
+import { FadeContent } from "@/components/animations/FadeContent";
 
 /* =============================================================
-   HOW IT WORKS
+   HOW IT WORKS — Clean 5-Step Infographic
    ============================================================= */
 export function HowItWorks() {
-  const [hoveredIndex, setHoveredIndex] = useState(0);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const steps = [
-    { icon: BookOpenCheck, title: "Learn Concepts", desc: "Master cyber defense in Academy" },
-    { icon: Crosshair, title: "Practice Live", desc: "Face real-world simulations" },
-    { icon: ScanSearch, title: "Investigate Cases", desc: "Analyze digital forensics evidence" },
-    { icon: FileCheck2, title: "Generate Reports", desc: "File verdicts and export findings" },
-    { icon: Award, title: "Earn Rank & XP", desc: "Level up your mission control" },
+    { icon: BookOpenCheck, title: "Learn Concepts", desc: "Complete bite-sized modules on networking, OS forensics, and cryptography" },
+    { icon: Crosshair, title: "Practice Live", desc: "Run phishing and OTP fraud simulations with branching outcomes" },
+    { icon: ScanSearch, title: "Investigate Cases", desc: "Analyze packet captures, disk images, and mobile device evidence" },
+    { icon: FileCheck2, title: "Generate Reports", desc: "File investigation verdicts with evidence references and risk scores" },
+    { icon: Award, title: "Earn Rank & XP", desc: "Unlock Apprentice → Investigator → Analyst rank badges" },
   ];
 
-  const transitionClass = "transition-all duration-[400ms] ease-[cubic-bezier(0.22,1,0.36,1)]";
-
   return (
-    <section 
-      id="features" 
-      className="relative px-4 sm:px-8 py-16 sm:py-24 scroll-mt-24 group/timeline"
-      onMouseLeave={() => setHoveredIndex(0)}
+    <section
+      id="features"
+      className="relative px-4 sm:px-8 py-16 sm:py-24 scroll-mt-24"
     >
-      <div className="mx-auto max-w-[1400px]">
-        <div className="rounded-3xl border border-white/[0.06] bg-white/[0.015] backdrop-blur-sm p-6 sm:p-10 relative overflow-hidden">
-          <div className="absolute inset-0 grid-bg opacity-30 [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_80%)]" />
+      <div className="mx-auto max-w-[1360px]">
+        {/* CONTAINER CARD */}
+        <div className="rounded-2xl border border-border bg-card p-8 sm:p-12 md:p-16 relative overflow-hidden">
+
+          {/* HEADLINE & SUBTITLE */}
           <Reveal>
-            <h2 className="relative font-display font-bold tracking-tight text-white text-2xl sm:text-3xl text-center">
-              HOW <span className="text-primary">FORENSHIELD</span> WORKS
-            </h2>
+            <div className="text-center">
+              <h2 className="relative font-display font-extrabold tracking-tight text-foreground text-2xl sm:text-3xl md:text-4xl">
+                HOW <span className="text-primary">FORENSHIELD</span> WORKS
+              </h2>
+              <p className="mt-2.5 text-xs sm:text-sm text-muted-foreground font-medium max-w-lg mx-auto">
+                From your first login to filing a case report in under 30 minutes
+              </p>
+            </div>
           </Reveal>
 
-          <div className="relative mt-10 grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-2">
-            
-            {/* CONTINUOUS LINE BACKGROUND (HIDDEN ON MOBILE) */}
-            <div className="hidden md:block absolute top-9 left-[10%] right-[10%] h-[2px] bg-primary/10 z-0 overflow-hidden rounded-full">
-              {/* FILLED PROGRESS LINE */}
-              <div 
-                className={`h-full bg-primary origin-left ${transitionClass}`}
-                style={{ 
-                  transform: `scaleX(${hoveredIndex / (steps.length - 1)})` 
-                }}
-              />
-            </div>
+          {/* 5-STEP INFOGRAPHIC GRID */}
+          <div className="relative mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 md:gap-4 items-start">
+
+            {/* CONNECTING LINE (DESKTOP) — solid, no gradient */}
+            <div className="hidden md:block absolute top-7 left-[10%] right-[10%] h-px z-0 bg-border" />
 
             {steps.map((s, i) => {
               const Icon = s.icon;
               const isHovered = hoveredIndex === i;
-              const isPast = i <= hoveredIndex;
 
               return (
-                <Reveal key={i} delay={i * 120}>
-                  <div 
-                    className="relative flex flex-col items-center text-center cursor-pointer outline-none"
+                <FadeContent key={i} delay={0.1 + i * 0.1} amount={0.2}>
+                  <div
+                    className="relative flex flex-col items-center text-center cursor-pointer group"
                     onMouseEnter={() => setHoveredIndex(i)}
-                    onFocus={() => setHoveredIndex(i)}
-                    tabIndex={0}
+                    onMouseLeave={() => setHoveredIndex(null)}
                   >
-                    {/* NODE */}
-                    <div 
-                      className={`relative h-18 w-18 z-10 flex items-center justify-center ${transitionClass} ${
-                        isHovered ? 'scale-[1.08] -translate-y-1' : 'scale-100 translate-y-0'
-                      }`}
-                    >
-                      {/* RADAR PULSE */}
-                      <div 
-                        className={`absolute inset-0 rounded-full border border-primary ${transitionClass} ${
-                          isHovered ? 'opacity-100 animate-radar-ring' : 'opacity-0'
-                        }`} 
-                      />
-                      
-                      {/* BACKGROUND / GLOW */}
-                      <div 
-                        className={`absolute inset-0 rounded-full border ${transitionClass} ${
-                          isHovered 
-                            ? 'border-primary bg-primary/20' 
-                            : isPast 
-                              ? 'border-primary/50 bg-primary/10'
-                              : 'border-white/10 bg-white/[0.02]'
-                        }`}
-                        style={{
-                          boxShadow: isHovered 
-                            ? '0 0 20px var(--primary)' 
-                            : isPast 
-                              ? '0 0 8px var(--primary)' 
-                              : 'none'
-                        }}
-                      />
-                      
-                      <div className="relative z-10 h-full w-full rounded-full flex items-center justify-center overflow-hidden">
-                        <Icon className={`h-7 w-7 ${transitionClass} ${
-                          isHovered 
-                            ? 'text-white' 
-                            : isPast 
-                              ? 'text-primary' 
-                              : 'text-primary/40'
-                        }`} 
-                        style={isHovered ? { filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.8))' } : undefined}
-                        />
+                    {/* Clean circular icon badge */}
+                    <div className="relative z-10 flex items-center justify-center">
+                      <div
+                        className={`h-14 w-14 rounded-full border bg-card text-primary flex items-center justify-center transition-all duration-200 ${isHovered
+                          ? 'border-primary shadow-md'
+                          : 'border-border'
+                          }`}
+                      >
+                        <Icon className="h-6 w-6 text-primary" />
                       </div>
                     </div>
-                    
-                    {/* BADGE AND TEXT */}
-                    <div className="mt-6 flex items-center justify-center gap-2 relative z-10">
-                      <span className={`h-5 w-5 rounded-full ${transitionClass} flex items-center justify-center font-mono text-[10px] font-bold ${
-                        isHovered 
-                          ? 'bg-primary text-white' 
-                          : isPast 
-                            ? 'bg-primary/20 text-primary' 
-                            : 'bg-white/5 text-white/40'
-                      }`}
-                      style={isHovered ? { boxShadow: '0 0 8px var(--primary)' } : undefined}
-                      >
-                        0{i + 1}
-                      </span>
-                      <span className={`text-base font-semibold ${transitionClass} ${
-                        isHovered ? 'text-white' : isPast ? 'text-white/80' : 'text-white/40'
-                      }`}>
-                        {s.title}
-                      </span>
-                    </div>
-                    <div className={`mt-2 text-sm max-w-[12rem] mx-auto relative z-10 ${transitionClass} ${
-                      isHovered ? 'opacity-100 -translate-y-1 text-white/90' : 'opacity-60 translate-y-0 text-muted-foreground'
-                    }`}>
-                      {s.desc}
+
+                    {/* BADGE (01-05) & TITLE */}
+                    <div className="mt-5 flex flex-col items-center gap-2 w-full">
+                      <div className="flex items-center justify-center gap-2">
+                        <span className="h-5 w-5 rounded-full bg-primary text-primary-foreground font-mono text-[10px] font-bold flex items-center justify-center shrink-0">
+                          0{i + 1}
+                        </span>
+                        <h3 className="text-base sm:text-lg font-bold text-foreground tracking-tight whitespace-nowrap">
+                          {s.title}
+                        </h3>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-xs sm:text-sm text-muted-foreground leading-snug max-w-[14rem] mx-auto text-center mt-1 min-h-[2.6rem] flex items-center justify-center">
+                        {s.desc}
+                      </p>
                     </div>
                   </div>
-                </Reveal>
+                </FadeContent>
               );
             })}
           </div>
+
         </div>
       </div>
     </section>

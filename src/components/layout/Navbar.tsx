@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { ArrowRight } from "lucide-react";
 import { Logo } from "@/components/common/Logo";
 import { MagneticButton } from "@/components/common/MagneticButton";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -79,16 +80,16 @@ export function Navbar() {
         <div
           className={`flex items-center justify-between gap-6 rounded-2xl px-4 sm:px-6 py-3 transition-all duration-500 ${
             scrolled
-              ? "border border-white/10 shadow-elevated"
+              ? "border border-border shadow-elevated"
               : "border border-transparent"
           }`}
           style={
             scrolled
               ? {
-                  background: "rgba(11,18,32,0.85)",
+                  background: "var(--nav-bg)",
                   backdropFilter: "blur(18px) saturate(140%)",
                   WebkitBackdropFilter: "blur(18px) saturate(140%)",
-                  borderColor: "rgba(255,255,255,0.08)",
+                  borderColor: "var(--nav-border)",
                 }
               : undefined
           }
@@ -96,7 +97,7 @@ export function Navbar() {
           <a href="#top" className="flex items-center gap-[14px] group">
             <Logo />
             <div className="hidden sm:flex flex-col justify-center leading-tight">
-              <span className="font-display font-bold tracking-tight text-white text-[17px] leading-none">
+              <span className="font-display font-bold tracking-tight text-foreground text-[17px] leading-none">
                 ForenShield
               </span>
             </div>
@@ -110,8 +111,8 @@ export function Navbar() {
                   key={l.label}
                   href={l.href}
                   onClick={(e) => handleNavClick(e, l.href)}
-                  className={`relative px-4 py-2 transition-all duration-300 hover:text-glow-cyan active:scale-95 ${
-                    isActive ? "text-white" : "text-muted-foreground hover:text-white"
+                  className={`relative px-4 py-2 transition-all duration-300 active:scale-95 ${
+                    isActive ? "text-foreground font-semibold" : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   {l.label}
@@ -125,16 +126,20 @@ export function Navbar() {
             })}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 sm:gap-3">
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileOpen((v) => !v)}
-              className="lg:hidden flex flex-col items-center justify-center h-9 w-9 rounded-lg border border-white/10 hover:border-primary/40 transition-colors"
+              className="lg:hidden flex flex-col items-center justify-center h-9 w-9 rounded-xl border border-border hover:border-primary/40 text-foreground transition-colors"
               aria-label="Toggle menu"
             >
-              <span className={`block h-0.5 w-4 bg-white rounded transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-[3px]" : ""}`} />
-              <span className={`block h-0.5 w-4 bg-white rounded mt-1 transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-[2px]" : ""}`} />
+              <span className={`block h-0.5 w-4 bg-current rounded transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-[3px]" : ""}`} />
+              <span className={`block h-0.5 w-4 bg-current rounded mt-1 transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-[2px]" : ""}`} />
             </button>
+
+            {/* Theme Toggle — positioned on right side just before Download button */}
+            <ThemeToggle />
+
             <MagneticButton href="#download" onClick={(e: MouseEvent<HTMLAnchorElement>) => handleNavClick(e, "#download")}>
               Download
               <ArrowRight className="h-3.5 w-3.5" />
@@ -148,7 +153,7 @@ export function Navbar() {
             mobileOpen ? "max-h-60 opacity-100 mt-2" : "max-h-0 opacity-0 mt-0"
           }`}
         >
-          <nav className="flex flex-col gap-1 rounded-2xl backdrop-blur-xl bg-background/80 border border-white/[0.06] p-3">
+          <nav className="flex flex-col gap-1 rounded-2xl bg-card/95 border border-border p-3 shadow-lg">
             {navLinks.map((l) => {
               const isActive = `#${activeSection}` === l.href;
               return (
@@ -158,8 +163,8 @@ export function Navbar() {
                   onClick={(e) => handleNavClick(e, l.href)}
                   className={`px-4 py-2.5 text-sm rounded-lg transition-colors ${
                     isActive
-                      ? "text-white bg-white/[0.06]"
-                      : "text-muted-foreground hover:text-white hover:bg-white/[0.04]"
+                      ? "text-foreground bg-primary/10 font-semibold"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
                   }`}
                 >
                   {l.label}

@@ -33,13 +33,8 @@ export function MagneticButton({
     el.style.transitionTimingFunction = "cubic-bezier(0.16,1,0.3,1)";
     el.style.translate = "0px 0px";
   };
-  const sharedClass = `relative inline-flex items-center gap-2 rounded-xl px-4 sm:px-5 py-2.5 text-sm font-semibold text-white bg-primary active:scale-95 transition-all duration-300 will-change-transform hover:shadow-[0_10px_40px_-8px_oklch(0.55_0.22_260/0.75)] ${className}`;
-  const inner = (
-    <>
-      <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary to-secondary opacity-0 hover:opacity-100 transition-opacity duration-300" />
-      <span className="relative inline-flex items-center gap-2">{children}</span>
-    </>
-  );
+  const sharedClass = `inline-flex items-center gap-2 rounded-xl px-4 sm:px-5 py-2.5 text-sm font-semibold text-white bg-primary hover:bg-primary/90 active:scale-95 shadow-sm hover:shadow-md transition-all duration-200 will-change-transform ${className}`;
+  const inner = children;
 
   // If href is provided, render a plain <a> (for anchor links)
   if (href) {

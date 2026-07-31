@@ -57,13 +57,13 @@ import { HowItWorks } from "@/components/landing/HowItWorks/HowItWorks";
 import { PlatformModules } from "@/components/landing/PlatformModules";
 import { CyberAcademySection } from "@/components/landing/CyberAcademySection";
 import { DeviceShowcase } from "@/components/landing/DeviceShowcase/DeviceShowcase";
-import { WorkflowStory } from "@/components/landing/Workflow/WorkflowStory";
 import { FeaturesComparison } from "@/components/landing/Features/FeaturesComparison";
 import { FinalCTA } from "@/components/landing/CTA/FinalCTA";
 import { CursorGlow } from "@/components/landing/Ambient/CursorGlow";
 import { AmbientBackdrop } from "@/components/landing/Ambient/AmbientBackdrop";
 import { SpotlightRow } from "@/components/landing/Spotlight/SpotlightRow";
 import { SimulationLabSection } from "@/components/landing/SimulationLab/SimulationLabSection";
+import { ForenShieldJourney } from "@/components/landing/Journey/ForenShieldJourney";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -87,22 +87,45 @@ export const Route = createFileRoute("/")({
 
 function LandingPage() {
   return (
-    <div className="min-h-screen bg-background text-foreground antialiased relative overflow-x-clip">
+    <div className="min-h-screen w-full bg-background text-foreground antialiased relative overflow-x-hidden">
       <CursorGlow />
       <AmbientBackdrop />
       <Navbar />
       <main>
-        <Hero />
-        <HighlightsRow />
-        <HowItWorks />
-        <PlatformModules />
-        <CyberAcademySection />
-        <SimulationLabSection />
-        <DeviceShowcase />
-        <WorkflowStory />
-        <SpotlightRow />
-        <FeaturesComparison />
-        <FinalCTA />
+        <div className="bg-background">
+          <Hero />
+        </div>
+        <div className="bg-background">
+          <HighlightsRow />
+        </div>
+        <div className="bg-background">
+          <HowItWorks />
+        </div>
+        <div className="bg-card/60">
+          <PlatformModules />
+        </div>
+        <div className="bg-background">
+          <CyberAcademySection />
+        </div>
+        <div className="bg-card/60">
+          <SimulationLabSection />
+        </div>
+        <div className="bg-background">
+          <DeviceShowcase />
+        </div>
+
+        <div className="bg-card/60">
+          <FeaturesComparison />
+        </div>
+        <div className="bg-background">
+          <ForenShieldJourney />
+        </div>
+        <div className="bg-background">
+          <SpotlightRow />
+        </div>
+        <div className="bg-background">
+          <FinalCTA />
+        </div>
       </main>
       <Footer />
     </div>

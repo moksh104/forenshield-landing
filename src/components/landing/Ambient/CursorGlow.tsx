@@ -1,8 +1,13 @@
 import { useEffect, useRef } from "react";
+import { useTheme } from "@/components/theme/ThemeProvider";
 
 export function CursorGlow() {
   const ref = useRef<HTMLDivElement | null>(null);
+  const { theme } = useTheme();
+
   useEffect(() => {
+    if (theme === "light") return;
+
     const el = ref.current;
     if (!el) return;
     let raf = 0;
@@ -41,7 +46,10 @@ export function CursorGlow() {
       window.removeEventListener("pointerup", onUp);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [theme]);
+
+  if (theme === "light") return null;
+
   return (
     <div
       ref={ref}

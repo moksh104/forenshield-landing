@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { GraduationCap, Play, FlaskConical, Clock, Trophy, ChevronLeft, ChevronRight } from "lucide-react";
 import { Reveal } from "@/components/landing/Reveal";
+import { FadeContent } from "@/components/animations/FadeContent";
 import { ModuleCard } from "./ModuleCard";
 import { ModulePreviewModal } from "./ModulePreviewModal";
 import { MODULE_DETAILS } from "./data";
@@ -12,31 +13,31 @@ export function PlatformModules() {
   const modules = [
     {
       title: "Cyber Academy",
-      desc: "Learn cyber defense fundamentals",
+      desc: "5 structured courses from networking basics to advanced forensics",
       icon: GraduationCap,
       art: <IllusNetwork />,
     },
     {
       title: "Simulation Lab",
-      desc: "Practice with live attack scenarios",
+      desc: "4 live attack simulations with branching decision paths",
       icon: Play,
       art: <IllusPlay />,
     },
     {
       title: "Investigation Lab",
-      desc: "Analyze evidence in a professional lab",
+      desc: "Analyze PCAP files, disk images, and device memory",
       icon: FlaskConical,
       art: <IllusHacker />,
     },
     {
       title: "Timeline View",
-      desc: "Reconstruct every step of the attack",
+      desc: "Reconstruct attack sequences with timestamped event correlation",
       icon: Clock,
       art: <IllusDashboard />,
     },
     {
       title: "Mission Control",
-      desc: "Track XP, Rank, and Achievements",
+      desc: "Track XP, rank progression, and case completion across all modules",
       icon: Trophy,
       art: <IllusReports />,
     },
@@ -115,8 +116,8 @@ export function PlatformModules() {
             </span>
           </Reveal>
           <Reveal delay={60}>
-            <h2 className="font-display font-bold tracking-tight text-white text-2xl sm:text-3xl text-center">
-              Explore <span className="text-primary">ForenShield</span> Platform
+            <h2 className="font-display font-bold tracking-tight text-foreground text-2xl sm:text-3xl text-center">
+              5 Integrated Modules, One Platform
             </h2>
           </Reveal>
         </div>
@@ -128,17 +129,17 @@ export function PlatformModules() {
         >
           <button
             onClick={() => scroll(-1)}
-            className="absolute -left-2 sm:-left-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full glass-strong hover:bg-primary/20 hover:border-primary/50 hover:text-primary hover:shadow-[0_0_15px_var(--color-primary)] transition-all duration-[150ms] flex items-center justify-center text-white active:scale-90"
+            className="absolute -left-3 sm:-left-6 top-1/2 -translate-y-1/2 z-20 h-11 w-11 rounded-full bg-card border border-border text-foreground shadow-sm hover:bg-muted hover:border-primary/40 transition-all duration-200 flex items-center justify-center cursor-pointer active:scale-95"
             aria-label="Scroll left"
           >
-            <ChevronLeft className="h-5 w-5" />
+            <ChevronLeft className="h-5 w-5 stroke-[2.5]" />
           </button>
           <button
             onClick={() => scroll(1)}
-            className="absolute -right-2 sm:-right-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full glass-strong hover:bg-primary/20 hover:border-primary/50 hover:text-primary hover:shadow-[0_0_15px_var(--color-primary)] transition-all duration-[150ms] flex items-center justify-center text-white active:scale-90"
+            className="absolute -right-3 sm:-right-6 top-1/2 -translate-y-1/2 z-20 h-11 w-11 rounded-full bg-card border border-border text-foreground shadow-sm hover:bg-muted hover:border-primary/40 transition-all duration-200 flex items-center justify-center cursor-pointer active:scale-95"
             aria-label="Scroll right"
           >
-            <ChevronRight className="h-5 w-5" />
+            <ChevronRight className="h-5 w-5 stroke-[2.5]" />
           </button>
           <div
             ref={scrollerRef}
@@ -151,9 +152,11 @@ export function PlatformModules() {
             style={{ scrollbarWidth: "none", scrollBehavior: "smooth" }}
           >
             {modules.map((m, i) => (
-              <Reveal key={i} delay={i * 100} className="snap-start shrink-0 flex">
-                <ModuleCard {...m} onPreview={() => setPreviewModule(m.title)} />
-              </Reveal>
+              <div key={i} className="snap-start shrink-0 flex">
+                <FadeContent delay={0.1 + i * 0.1} amount={0.2}>
+                  <ModuleCard {...m} onPreview={() => setPreviewModule(m.title)} />
+                </FadeContent>
+              </div>
             ))}
           </div>
         </div>
